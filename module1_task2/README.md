@@ -5,8 +5,8 @@
 * This project aims at showing use cases where a DevOps mindset is bringing value to a software project by automating it, which decreases the amount of manual work and increases the development speed. It focuses on why automation is useful and helps speeding a development lifecycle.
 
 ---
-Read|
----|---
+Read
+
 Understand the value of automating tedious tasks
 Define a development lifecycle
 Automate shell-like tasks with Make, and/or shell script
