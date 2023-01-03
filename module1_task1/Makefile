@@ -1,5 +1,5 @@
 build:
-	@hugo  --buildDrafts
+	@hugo
 clean:
 	@rm -rf dist/*
 post:
