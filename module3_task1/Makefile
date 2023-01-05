@@ -1,5 +1,5 @@
 lint: ## to execute a static analysis to lint this code.
-	@golangci-lint run
+	@shellcheck setup.sh
 
 build: ## Generate the website from the markdown and configuration files in the directory dist/
 	@hugo
