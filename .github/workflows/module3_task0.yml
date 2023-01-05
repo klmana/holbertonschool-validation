@@ -1,0 +1,31 @@
+---
+name: module3_task0
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone the repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+	  
+	  - name: Checkout code
+          uses: actions/checkout@v2
+
+	  - name: Set up Go
+          uses: actions/setup-go@v2
+          with:
+		go-version: '1.16'
+
+      		- name: Navigate to project directory
+        	run: cd my-project
+
+      		- name: Run make help
+        	run: make help
