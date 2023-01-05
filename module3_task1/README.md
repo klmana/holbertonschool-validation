@@ -74,6 +74,8 @@ Clean | Cleanup the content of the directory dist/
 Post | Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 ### Write a Makefile to implement these steps for the actual Go-Hugo website’s source code.
 
+# Workflow 
+* Build Workflow 
 
 ## Author
 Karren - [Github https://github.com/klmana ]
