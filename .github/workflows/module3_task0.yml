@@ -4,13 +4,13 @@ name: module3_task0
 on:
   push:
     branches:
-      - main
+      - master
   schedule:
     - cron: '0 0 * * *'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Clone the repository
         uses: actions/checkout@v3
