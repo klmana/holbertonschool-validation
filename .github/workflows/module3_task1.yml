@@ -1,0 +1,39 @@
+---
+name: module3_task1
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Ejecutar setup.sh
+        working-directory: ./module3_task1
+        run: ./setup.sh
+
+      - name: Make Lint
+        working-directory: ./module3_task1
+        run: make lint
+
+      - name: Make Build
+        working-directory: ./module3_task1
+        run: make build
+
+      - name: Make Unit-tests
+        working-directory: ./module3_task1
+        run: make unit-tests
+
+      - name: Make Validate
+        working-directory: ./module3_task1
+        run: make validate
+
+      - name: Make Integration-tests
+        working-directory: ./module3_task1
+        run: make integration-tests
