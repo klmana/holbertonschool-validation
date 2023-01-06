@@ -8,7 +8,7 @@ on:
     - cron: 8 8 * * *
 jobs:
   module3_task1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Clone and check out repository
         uses: actions/checkout@v3
