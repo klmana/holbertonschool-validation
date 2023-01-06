@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - main
   schedule:
     - cron: 8 8 * * *
 jobs:
@@ -12,11 +13,13 @@ jobs:
     steps:
       - name: Clone and check out repository
         uses: actions/checkout@v3
+
       - name: Run setup script to install Hugo
         run: |
           cd module3_task1/
           sudo ./setup.sh
         shell: bash
+
       - name: Use build in Makefile
         run: |
           cd module3_task1/
