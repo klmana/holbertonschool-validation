@@ -15,7 +15,7 @@ jobs:
       - name: Run setup script to install Hugo
         run: |
           cd module3_task1/
-          ./setup.sh
+          sudo ./setup.sh
         shell: bash
       - name: Use build in Makefile
         run: |
