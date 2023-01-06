@@ -10,32 +10,25 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-18.04
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Clone the repository
+        uses: actions/checkout@v3
 
-      - name: Ejecutar setup.sh
-        working-directory: ./module3_task1
-        run: ./setup.sh
+      - name: Check setup file
+        run: make lint -C module3_task1/
 
-      - name: Make Lint
-        working-directory: ./module3_task1
-        run: make lint
+      - name: Install tools
+        run: cd module3_task1 && sudo ./setup.sh
 
-      - name: Make Build
-        working-directory: ./module3_task1
-        run: make build
+      - name: Build
+        run: make build -C module3_task1/
 
-      - name: Make Unit-tests
-        working-directory: ./module3_task1
-        run: make unit-tests
+      - name: Validate
+        run: make validate -C module3_task1/
 
-      - name: Make Validate
-        working-directory: ./module3_task1
-        run: make validate
+      - name: Unit testing
+        run: make unit-tests -C module3_task1/
 
-      - name: Make Integration-tests
-        working-directory: ./module3_task1
-        run: make integration-tests
+      - name: Integration testing
+        run: make integration-tests -C module3_task1/
