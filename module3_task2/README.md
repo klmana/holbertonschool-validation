@@ -83,6 +83,11 @@ Post | Create a new blog post whose filename and title come from the environment
 * lint
 * integration-tests
 * clean
+* build
+* validate
+* post
+* help
+
 
 ## Author
 Karren - [Github https://github.com/klmana ]
