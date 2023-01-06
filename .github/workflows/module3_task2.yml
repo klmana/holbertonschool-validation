@@ -37,12 +37,12 @@ jobs:
 
       - name: Integration tests
         run: |
-          cd module3_task2/
-          make validate
-          make integration-tests
-          make unit-tests
-          make package
-          make clean
+          sudo cd module3_task2/
+          sudo make validate
+          sudo make integration-tests
+          sudo make unit-tests
+          sudo make package
+          sudo make clean
 
       - name: archive build
         if: ${{ success()}}
