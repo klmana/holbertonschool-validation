@@ -20,4 +20,4 @@ jobs:
       - name: Use build in Makefile
         run: |
           cd module3_task1/
-          sudo make build 
+          sudo make build
