@@ -37,7 +37,7 @@ jobs:
 
       - name: Integration tests
         run: |
-          sudo cd module3_task2/
+          cd module3_task2/
           sudo make validate
           sudo make integration-tests
           sudo make unit-tests
