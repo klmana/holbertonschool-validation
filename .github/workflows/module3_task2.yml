@@ -32,7 +32,7 @@ jobs:
 
       - name: Build and create the package
         run: |
-          make -C module3_task2/ package
+         sudo make -C module3_task2/ package
 
       - name: post
         run: |
