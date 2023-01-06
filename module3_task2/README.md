@@ -77,5 +77,12 @@ Post | Create a new blog post whose filename and title come from the environment
 # Workflow 
 * Build Workflow 
 
+# Target
+* unit-tests
+* package
+* lint
+* integration-tests
+* clean
+
 ## Author
 Karren - [Github https://github.com/klmana ]
