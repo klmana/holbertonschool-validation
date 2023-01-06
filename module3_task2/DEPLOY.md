@@ -6,6 +6,7 @@
 * make build: is for make the build and start the application
 * hugo server
 * make stop: is for stop the application
+* make lint
 ## How to customize where the application logs are written?
 * customize where will be written the logs of the app is on the config.toml
 ## How to “quickly” verify that the application is running (healthcheck)?
