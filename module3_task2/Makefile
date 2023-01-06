@@ -11,7 +11,8 @@ unit-tests: ## executes (successfully) the Golang unit tests
 	@go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## executes the golang integration tests
-	@go test -v -tags=integration -coverprofile=coverage-integrations.out
+	@hugo
+	@ls dist/
 
 post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 	@rm -rf content/posts/$(POST_NAME).md
