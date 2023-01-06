@@ -9,28 +9,38 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  build:
+  yamllint:
+    name: 'module3_task1'
     runs-on: ubuntu-18.04
     steps:
-      - name: Clone the reposito
-        uses: actions/checkout@v3
+      - name: 'Check out repository code'
+        uses: actions/checkout@v2
 
-      - name: Check setup file
-        run: make lint -C module3_task1/
+      - name: install go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.17.6'
 
-      - name: Install tools
-        run: cd module3_task1 && sudo ./setup.sh
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: sh ./setup.sh
 
-      - name: Build
-        run: |
-          cd module3_task1/
-          make build
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: make lint
 
-      - name: Validate
-        run: make validate -C module3_task1/
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: make build
 
-      - name: Unit testing
-        run: make unit-tests -C module3_task1/
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: make unit-tests
 
-      - name: Integration testing
-        run: make integration-tests -C module3_task1/
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: make validate
+
+      - name: 'move a module3_task1'
+        working-directory: ./module3_task1
+        run: make integration-tests
