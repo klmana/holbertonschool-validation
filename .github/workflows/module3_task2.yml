@@ -30,6 +30,10 @@ jobs:
           cd module3_task2/
           sudo make build
 
+      - name: Build and create the package
+        run: |
+          make -C module3_task2/ package
+
       - name: post
         run: |
           cd module3_task2/
