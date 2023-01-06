@@ -11,3 +11,4 @@
 * customize where will be written the logs of the app is on the config.toml
 ## How to “quickly” verify that the application is running (healthcheck)?
 * veriry the health of the application we have to run "make status"
+* Check it out on local host [http://localhost:1313]
