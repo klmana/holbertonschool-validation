@@ -1,5 +1,5 @@
 ---
-name: module3_task1
+name: module3_task2
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
   schedule:
     - cron: 8 8 * * *
 jobs:
-  module3_task1:
+  module3_task2:
     runs-on: ubuntu-18.04
     steps:
       - name: Clone and check out repository
@@ -16,11 +16,37 @@ jobs:
 
       - name: Run setup script to install Hugo
         run: |
-          cd module3_task1/
+          cd module3_task2/
           sudo ./setup.sh
         shell: bash
 
+      - name: lint
+        run: |
+          cd module3_task2/
+          make lint
+
       - name: Use build in Makefile
         run: |
-          cd module3_task1/
+          cd module3_task2/
           sudo make build
+
+      - name: post
+        run: |
+          cd module3_task2/
+          make POST_TITLE="Test Title" POST_NAME="Test-name" post
+
+      - name: Integration tests
+        run: |
+          cd module3_task2/
+          make validate
+          make integration-tests
+          make unit-tests
+          make package
+          make clean
+
+      - name: archive build
+        if: ${{ success()}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-package
+          path: module3_task2/awesome-website.zip

@@ -21,5 +21,9 @@ post: ## Create a new blog post whose filename and title come from the environme
 validate: ## should validate the file ./dist/index.html by using the command line Holberton's W3C Validator, but should not fail if the file is not valid: you expect it to be a non-blocking quality indicator.
 	/home/john/Desktop/Curso_DevOps/W3C-Validator/w3c_validator.py ./dist/index.html > /dev/null 2>&1 || true;
 
+package: ## Creates a zip archive of the dist dir api binary.
+	@make build
+	@zip awesome-website.zip dist/index.html
+
 help: ## Display help about all info how to make recipes.
 	@cat Makefile | grep '##' | tr -d '##' | head -n -1
