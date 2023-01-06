@@ -22,7 +22,9 @@ jobs:
         run: cd module3_task1 && sudo ./setup.sh
 
       - name: Build
-        run: make build -C module3_task1/
+        run: |
+          cd module3_task1/
+          make build
 
       - name: Validate
         run: make validate -C module3_task1/
