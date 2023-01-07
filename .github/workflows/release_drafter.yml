@@ -6,6 +6,7 @@ on:
     # branches to consider in the event; optional, defaults to all
     branches:
       - master
+      - main
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action
@@ -25,7 +26,7 @@ jobs:
       # write permission is required for autolabeler
       # otherwise, read permission is required at least
       pull-requests: write
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       # (Optional) GitHub Enterprise requires GHE_HOST variable set
       # - name: Set GHE_HOST
