@@ -1,5 +1,7 @@
 lint: ## to execute a static analysis to lint this code.
 	@shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+	@markdownlint README.md
+	@markdownlint DEPLOY.md
 
 build: ## Generate the website from the markdown and configuration files in the directory dist/
 	@hugo
