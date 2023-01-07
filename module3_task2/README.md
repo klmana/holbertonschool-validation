@@ -66,7 +66,7 @@ Files|Tasks
 ---|---
 Build | Generate the website from the markdown
 Clean | Cleanup the content of the directory dist/
-Post | Create a new blog post whose filename 
+Post | Create a new blog post whose filename
 
 ### Write a Makefile to implement these steps
 
