@@ -58,21 +58,21 @@ Build static HTML website from Markdown code using Go-Hugo
 * A text editor or IDE (Integrated Development Editor) of your convenience
 * (Visual Code, Notepad++, Vim, Emacs, IntelliJ, etc.)
 
-##  Development Lifecycle with Makefile
+## Development Lifecycle with Makefile
 
-## following make file use `make` <command>
+## following make file use `make` command
 
 Files|Tasks
 ---|---
-Build | Generate the website from the markdown and configuration files in the directory dist/.
+Build | Generate the website from the markdown
 Clean | Cleanup the content of the directory dist/
-Post | Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
+Post | Create a new blog post whose filename 
 
-### Write a Makefile to implement these steps for the actual Go-Hugo website’s source code.
+### Write a Makefile to implement these steps
 
-## Workflow 
+## Workflow
 
-* Build Workflow 
+* Build Workflow
 
 ## Target
 
@@ -86,9 +86,9 @@ Post | Create a new blog post whose filename and title come from the environment
 * post
 * help
 * lint: ## to execute a static analysis to lint this code.
-* lint	Lints the shell script setup.sh and on success runs
+* lint Lints the shell script setup.sh and on success runs
 * make yamllint and lints markdown FILES
-* markdownlint	lints the README.md and DEPLOY.md files
+* markdownlint lints the README.md and DEPLOY.md files
 
 ## Author
 
