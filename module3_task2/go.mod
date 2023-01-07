@@ -1,3 +1,3 @@
 module github.com/klmana/holbertonschool-validation
 
-go 1.19
+go 1.14
