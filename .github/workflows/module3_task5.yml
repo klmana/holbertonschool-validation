@@ -35,11 +35,6 @@ jobs:
         run: |
          sudo make -C module3_task5/ package
 
-      - name: post
-        run: |
-          cd module3_task4/
-          make POST_TITLE="Test Title" POST_NAME="Test-name" post
-
       - name: Integration tests
         run: |
           cd module3_task5/
