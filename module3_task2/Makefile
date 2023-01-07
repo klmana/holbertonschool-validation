@@ -8,7 +8,9 @@ clean: ## Cleanup the content of the directory dist/
 	@rm -rf dist/*
 
 unit-tests: ## executes (successfully) the Golang unit tests
-	@go test -v -short -coverprofile=coverage-units.out
+	@make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
+	@make build
+	@make clean
 
 integration-tests: ## executes the golang integration tests
 	@hugo
