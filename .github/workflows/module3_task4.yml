@@ -1,0 +1,63 @@
+---
+name: module3_task4
+on:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: 8 8 * * *
+jobs:
+  module3_task2:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Clone and check out repository
+        uses: actions/checkout@v3
+
+      - name: Run setup script to install Hugo
+        run: |
+          cd module3_task4/
+          sudo ./setup.sh
+        shell: bash
+
+      - name: lint
+        run: |
+          cd module3_task4/
+          make lint
+
+      - name: Use build in Makefile
+        run: |
+          cd module3_task4/
+          sudo make build
+
+      - name: Build and create the package
+        run: |
+         sudo make -C module3_task4/ package
+
+      - name: post
+        run: |
+          cd module3_task4/
+          make POST_TITLE="Test Title" POST_NAME="Test-name" post
+
+      - name: Integration tests
+        run: |
+          cd module3_task4/
+          sudo go mod tidy
+          sudo make validate
+          sudo make integration-tests
+          sudo make unit-tests
+          sudo make package
+          sudo make clean
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: 1.0.1
+          files: |
+            module3_task3/awesome-website.zip
+            module3_task3/DEPLOY.md
+
+      - name: archive build
+        if: ${{ success()}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-package
+          path: module3_task3/awesome-website.zip
