@@ -14,6 +14,10 @@ unit-tests: ## executes (successfully) the Golang unit tests
 	@make build
 	@make clean
 
+markdownlint:
+	@markdownlint README.md
+	@markdownlint DEPLOY.md
+
 integration-tests: ## executes the golang integration tests
 	@hugo
 	@sudo ls dist/
