@@ -1,5 +1,5 @@
 ---
-name: module3_task4
+name: module3_task5
 on:
   push:
     branches: [main, master]
@@ -17,23 +17,23 @@ jobs:
 
       - name: Run setup script to install Hugo
         run: |
-          cd module3_task4/
+          cd module3_task5/
           sudo ./setup.sh
         shell: bash
 
       - name: lint
         run: |
-          cd module3_task4/
+          cd module3_task5/
           make lint
 
       - name: Use build in Makefile
         run: |
-          cd module3_task4/
+          cd module3_task5/
           sudo make build
 
       - name: Build and create the package
         run: |
-         sudo make -C module3_task4/ package
+         sudo make -C module3_task5/ package
 
       - name: post
         run: |
@@ -42,7 +42,7 @@ jobs:
 
       - name: Integration tests
         run: |
-          cd module3_task4/
+          cd module3_task5/
           sudo go mod tidy
           sudo make validate
           sudo make integration-tests
@@ -78,4 +78,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: upload-package
-          path: module3_task3/awesome-website.zip
+          path: module3_task5/awesome-website.zip
