@@ -40,7 +40,7 @@ jobs:
       - name: Integration tests
         run: |
           cd module3_task2/
-          sudo go mod init
+          sudo go mod tidy
           sudo make validate
           sudo make integration-tests
           sudo make unit-tests
