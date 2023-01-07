@@ -89,7 +89,3 @@ Post | Create a new blog post whose filename
 * lint Lints the shell script setup.sh and on success runs
 * make yamllint and lints markdown FILES
 * markdownlint lints the README.md and DEPLOY.md files
-
-## Author
-
-Karren - [Github https://github.com/klmana ]
