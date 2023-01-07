@@ -89,6 +89,7 @@ Post | Create a new blog post whose filename and title come from the environment
 * help
 * lint: ## to execute a static analysis to lint this code.
 * @shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+* lint	Lints the shell script setup.sh and on success runs make yamllint and lints markdown FILES
 
 
 ## Author
