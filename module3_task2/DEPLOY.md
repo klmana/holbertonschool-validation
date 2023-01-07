@@ -1,19 +1,24 @@
-# Deployment
-## What is in the archive and how to unarchive it?
-* In the archive "awesome-website.zip" contain the binary file of awesome-api and the dist (distribution) directory
-* Run the command:`unzip awesome-website.zip`
-## What are the commands to start and stop the application?
-* make build: is for make the build and start the application
-* hugo server
-* make stop: is for stop the application
-* make lint
-## How to customize where the application logs are written?
-* customize where will be written the logs of the app is on the config.toml
-## How to “quickly” verify that the application is running (healthcheck)?
-* veriry the health of the application we have to run "make status"
-* Check it out on local host [http://localhost:1313]
-* lint: ## to execute a static analysis to lint this code.
-* @shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+# DEPLOYMENT
 
-## Author
-Karren - [Github https://github.com/klmana ]
+## What is in the archive and how to unarchive it
+
+The archive contains the latest build and the api binary.
+The archive can be found under either in uploads or releases if a tags is used v1.0.0
+
+### To unarchive the package
+
+Run the command:
+`unzip awesome-website.zip`
+
+## What are the commands to start and stop the application
+
+To run the application use:
+`hugo server`
+
+## How to customise where the logs are written
+
+Logs are created by the github actions and stored in the respective runner
+
+## How to quickly check the application is running
+
+Use the url in modern browser: <http://localhost:1313>
