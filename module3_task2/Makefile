@@ -1,6 +1,7 @@
+MARKDOWN=markdownlint
 lint: ## to execute a static analysis to lint this code.
-	@markdownlint README.md
-	@markdownlint DEPLOY.md
+	$(MARKDOWN) README.md
+	$(MARKDOWN) DEPLOY.md
 	@shellcheck setup.sh >/dev/null 2>&1 && make yamllint || echo "Lint Failed"
 
 build: ## Generate the website from the markdown and configuration files in the directory dist/
@@ -15,8 +16,8 @@ unit-tests: ## executes (successfully) the Golang unit tests
 	@make clean
 
 markdownlint:
-	@markdownlint README.md
-	@markdownlint DEPLOY.md
+	$(MARKDOWN) README.md
+	$(MARKDOWN) DEPLOY.md
 
 integration-tests: ## executes the golang integration tests
 	@hugo
