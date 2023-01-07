@@ -5,6 +5,10 @@ on:
     branches: [main, master]
   schedule:
     - cron: 8 8 * * *
+  pull_request:
+    types: [opened, reopened, edited, ready_for_review]
+    tags:
+    - "v*.*.*"
 jobs:
   module3_task2:
     runs-on: ubuntu-18.04
