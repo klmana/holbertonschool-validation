@@ -12,3 +12,5 @@
 ## How to “quickly” verify that the application is running (healthcheck)?
 * veriry the health of the application we have to run "make status"
 * Check it out on local host [http://localhost:1313]
+* lint: ## to execute a static analysis to lint this code.
+* @shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"

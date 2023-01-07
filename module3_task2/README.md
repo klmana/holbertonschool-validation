@@ -87,6 +87,8 @@ Post | Create a new blog post whose filename and title come from the environment
 * validate
 * post
 * help
+* lint: ## to execute a static analysis to lint this code.
+* @shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
 
 ## Author
