@@ -29,3 +29,6 @@ post:
 package:
 	@sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster zip awesome-website.zip dist/index.html
 
+help: ## Display help about all info how to make recipes.
+	@cat Makefile | grep '##' | tr -d '##' | head -n -1
+
