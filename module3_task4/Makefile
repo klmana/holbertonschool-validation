@@ -14,7 +14,7 @@ unit-tests: ## executes (successfully) the Golang unit tests
 
 integration-tests: ## executes the golang integration tests
 	@hugo
-	@sudo ls dist/
+	@sudo ls ./dist/
 
 post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
 	@rm -rf content/posts/$(POST_NAME).md

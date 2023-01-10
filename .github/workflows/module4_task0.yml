@@ -26,24 +26,22 @@ jobs:
           cd module4_task0/
           make lint
 
-      - name: Use build in Makefile
+      - name: Build
         run: |
           cd module4_task0/
-          sudo make build
-
-      - name: Build and create the package
-        run: |
-         sudo make -C module4_task0/ package
-
-      - name: Integration tests
-        run: |
-          cd module4_task0/
-          sudo go mod tidy
-          sudo make validate
-          sudo make integration-tests
-          sudo make unit-tests
-          sudo make package
           sudo make clean
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go build -o awesome-api
+
+      - name: Package
+        run: |
+          cd module4_task0/
+          sudo make package
+
+      - name: Test
+        run: |
+          cd module4_task0/
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go test -v -coverprofile=coverage-units.out ./...
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go test -v -coverprofile=coverage-integrations.out -tags integration ./...
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -56,7 +54,7 @@ jobs:
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.2
         with:
-          publish-dir: 'module3_task5/dist'
+          publish-dir: 'module3_task5/./dist'
           production-branch: main
           github-token: ${{ secrets.REPO_TOKEN }}
           deploy-message: "🎉 Published on   🚀 Deployed on"
