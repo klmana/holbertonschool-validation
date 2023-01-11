@@ -14,8 +14,11 @@ post: ## Creates a new post with the title changed to the ENV value.
 	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 clean: ## Remove all files from target folder
-	rm -rf ./dist/*
-	rm -r ./dist
+	-make stop
+	-rm -rf ./dist/*
+	-rm awesome*
+	-rm *.out
+	-rm -rf awesome-website
 
 lint: ## Lints the shell file and run yamllint on success.
 	$(MARKDOWN) README.md
@@ -49,6 +52,7 @@ validate: ## Tests ensure it is in correct dir
 
 package: ## Creates a zip archive of the dist dir api binary.
 	make build
+	mv ./dist ./awesome-website
 	zip awesome-website.zip dist/index.html
 
 .SILENT:
