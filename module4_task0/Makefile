@@ -2,7 +2,8 @@ lint: ## to execute a static analysis to lint this code.
 	@shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
 build: ## Generate the website from the markdown and configuration files in the directory dist/
-	@docker run --rm -v $(CURDIR):/src -w /src golang:1.15.8-buster hugo
+	@docker run --rm -v $(CURDIR):/src -w /src golang:1.15.8-buster 
+	@hugo
 
 clean: ## Cleanup the content of the directory dist/
 	@rm -rf dist/*
