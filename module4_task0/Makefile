@@ -13,7 +13,6 @@ go-build:	## Build go api
 hugo-build:	## Builds hugo site
 	@hugo
 build:		## Builds hugo website and api
-	@make go-build
 	@make hugo-build
 run:		## Runs application in background 
 	-make lint
