@@ -6,7 +6,7 @@ YQ=yq
 MARKDOWN=markdownlint
 
 build: ## Builds a new website
-	$(HUGO)
+	@make hugo-build
 	touch awesome-api
 
 post: ## Creates a new post with the title changed to the ENV value.
@@ -34,7 +34,7 @@ markdownlint:
 	$(MARKDOWN) DEPLOY.md
 
 integration-tests: ## Spin up a server and check the localhost url
-	$(HUGO)
+	@make hugo-build
 	touch coverage-integrations.out
 	ls dist/
 
