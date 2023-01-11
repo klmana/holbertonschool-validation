@@ -1,5 +1,5 @@
 ---
-name: module4_task1
+name: module4_task0
 on:
   push:
     branches: [main, master]
