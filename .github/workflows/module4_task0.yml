@@ -30,7 +30,8 @@ jobs:
         run: |
           cd module4_task0/
           sudo make clean
-          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go build -o awesome-api
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go build -o awesome-api
 
       - name: Package
         run: |
@@ -40,8 +41,11 @@ jobs:
       - name: Test
         run: |
           cd module4_task0/
-          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go test -v -coverprofile=coverage-units.out ./...
-          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster go test -v -coverprofile=coverage-integrations.out -tags integration ./...
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go test -v -coverprofile=coverage-units.out ./...
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go test -v -coverprofile=coverage-integrations.out -tags \
+          integration ./...
 
       - name: Release
         uses: softprops/action-gh-release@v1
