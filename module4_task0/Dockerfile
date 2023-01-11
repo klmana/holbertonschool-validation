@@ -6,5 +6,5 @@ RUN wget https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extend
 WORKDIR /module4_task0
 COPY . .
 RUN hugo
-CMD ["hugo", "server", "--bind", "0.0.0.0", "--port", "5000"]
+CMD ["node", "hugo", "server", "--bind", "0.0.0.0", "--port", "5000"]
 EXPOSE 5000
