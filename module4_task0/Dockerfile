@@ -1,20 +1,17 @@
-# Start from base image
 FROM golang:1.15.8-buster
-
-# update package lists
+WORKDIR /module4_task0
+COPY . .
 RUN apt-get update
-
-# install Homebrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# add brew to path
-RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Check brew 
-RUN which brew
-
-# Install hugo
-RUN brew install hugo
-
-# Check hugo
-RUN which hugo
+ENV NODE_VERSION=16.13.0
+RUN apt install -y curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
+RUN ./setup.sh
+RUN which go
+RUN make build
