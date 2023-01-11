@@ -14,7 +14,7 @@ post: ## Creates a new post with the title changed to the ENV value.
 	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 clean: ## Remove all files from target folder
-	$(RM) dist/*
+	rm -rf dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
 	$(MARKDOWN) README.md
