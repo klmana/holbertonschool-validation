@@ -1,33 +1,32 @@
-lint:
-	@sudo shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
+lint: ## to execute a static analysis to lint this code.
+	@shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
-build: 
-	@sudo docker run --rm -v ${PWD}:/app -v /usr/local/bin/hugo:/usr/local/bin/hugo -w /app golang:1.15.8-buster /usr/local/bin/hugo
+build: ## Generate the website from the markdown and configuration files in the directory dist/
+	@docker run --rm -v $(CURDIR):/src -w /src golang:1.15.8-buster hugo
 
-clean: 
-	@sudo rm -rf dist/*
+clean: ## Cleanup the content of the directory dist/
+	@rm -rf dist/*
 
-unit-tests:
-	@sudo make POST_TITLE='This is a test' POST_NAME='this-is-a-test' post
-	@sudo docker run --rm -v ${PWD}:/app -v /usr/local/bin/hugo:/usr/local/bin/hugo -w /app golang:1.15.8-buster /usr/local/bin/hugo
-	@sudo make clean
+unit-tests: ## executes (successfully) the Golang unit tests
+	@make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
+	@make build
+	@make clean
 
-integration-tests:
-	@sudo docker run --rm -v ${PWD}:/app -v /usr/local/bin/hugo:/usr/local/bin/hugo -w /app golang:1.15.8-buster /usr/local/bin/hugo
-	@sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster ls dist/
+integration-tests: ## executes the golang integration tests
+	@docker run --rm -v $(CURDIR):/src -w /src golang:1.15.8-buster hugo
+	@sudo ls dist/
 
-post: 
-	@sudo echo "Creating post with title $(POST_TITLE) and name $(POST_NAME)"
-	@sudo docker run --rm -v ${PWD}:/app -v /usr/local/bin/hugo:/usr/local/bin/hugo -w /app golang:1.15.8-buster /usr/local/bin/hugo new posts/$(POST_NAME).md
-	@if [ -f "content/posts/$(POST_NAME).md" ]; then \
-		sudo echo "File created successfully"; \
-		sudo sed -i "s/^title: .*/title: $(POST_TITLE)/" content/posts/$(POST_NAME).md; \
-	else \
-		sudo echo "Error: file not created"; \
-	fi
+post: ## Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME.
+	@rm -rf content/posts/$(POST_NAME).md
+	@hugo new posts/$(POST_NAME).md 2>/dev/null || true
+	@sed -i 's/^title: .*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
-package:
-	@sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster zip awesome-website.zip dist/index.html
+validate: ## should validate the file ./dist/index.html by using the command line Holberton's W3C Validator, but should not fail if the file is not valid: you expect it to be a non-blocking quality indicator.
+	/home/john/Desktop/Curso_DevOps/W3C-Validator/w3c_validator.py ./dist/index.html > /dev/null 2>&1 || true;
+
+package: ## Creates a zip archive of the dist dir api binary.
+	@make build
+	@zip awesome-website.zip dist/index.html
 
 help: ## Display help about all info how to make recipes.
 	@cat Makefile | grep '##' | tr -d '##' | head -n -1
