@@ -4,18 +4,75 @@ on:
   push:
     branches: [main, master]
   schedule:
-    - cron: "0 0 * * *"
+    - cron: 8 8 * * *
   pull_request:
     types: [opened, reopened, edited, ready_for_review]
 
 jobs:
-  module4_task0:
+  module3_task2:
     runs-on: ubuntu-18.04
     steps:
-      - name: Checkout
+      - name: Clone and check out repository
         uses: actions/checkout@v3
-      - name: docker run
+
+      - name: Run setup script to install Hugo
         run: |
           cd module4_task0/
-          docker build -t my-app .
-          docker run -dp 80:80 my-app
+          sudo ./setup.sh
+        shell: bash
+
+      - name: lint
+        run: |
+          cd module4_task0/
+          make lint
+
+      - name: Build
+        run: |
+          cd module4_task0/
+          sudo make clean
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go build -o awesome-api
+
+      - name: Package
+        run: |
+          cd module4_task0/
+          sudo make package
+
+      - name: Test
+        run: |
+          cd module4_task0/
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go test -v -coverprofile=coverage-units.out ./...
+          sudo docker run --rm -v ${PWD}:/app -w /app golang:1.15.8-buster \
+          go test -v -coverprofile=coverage-integrations.out -tags \
+          integration ./...
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: 1.0.1
+          files: |
+            module3_task3/awesome-website.zip
+            module3_task3/DEPLOY.md
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: 'module3_task5/./dist'
+          production-branch: main
+          github-token: ${{ secrets.REPO_TOKEN }}
+          deploy-message: "🎉 Published on   🚀 Deployed on"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+      - name: archive build
+        if: ${{ success()}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-package
+          path: module3_task5/awesome-website.zip
