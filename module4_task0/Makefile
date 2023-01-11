@@ -15,6 +15,7 @@ post: ## Creates a new post with the title changed to the ENV value.
 
 clean: ## Remove all files from target folder
 	rm -rf ./dist/*
+	rm -d ./dist
 
 lint: ## Lints the shell file and run yamllint on success.
 	$(MARKDOWN) README.md
