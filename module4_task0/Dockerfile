@@ -14,4 +14,5 @@ RUN node --version
 RUN npm --version
 RUN ./setup.sh
 RUN which go
+RUN go version
 RUN make build

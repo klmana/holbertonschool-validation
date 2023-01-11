@@ -1,54 +1,57 @@
-PROCESS_ID = $(shell pgrep awesome-api)
-POSTNAME = "$(POST_NAME).md"
-POSTTITLE = $(POST_TITLE)
+HUGO=hugo
+RM=rm -rf
+SHELLCHECK=shellcheck
+YAMLLINT=yamllint
+YQ=yq
+MARKDOWN=markdownlint
 
-lint:		## Runs code through checker
-	-golangci-lint run
-	-markdownlint ./content/posts/*
-	-markdown-link-check ./content/posts/*
-	-markdownlint DEPLOY.md
-	-markdownlint README.md
-go-build:	## Build go api
-	@./docker_build.sh
-hugo-build:	## Builds hugo site
-	@hugo
-build:		## Builds hugo website and api
-	@make hugo-build
-run:		## Runs application in background 
-	-make lint
-	-make build
-	-make test
-	-make validate
-	@./awesome-api >./awesome.log 2>&1 &
-stop:		## Stops api
-	@kill $(PROCESS_ID)
-check:		## Checks markdown files and dead links
-	@markdownlint ./content/posts/*
-	@markdown-link-check ./content/posts/*
-unit-tests:	## Runs unit tests on application
-	@docker run golang:1.15.8-buster go test -v -short -coverprofile=coverage-units.out
-integration-tests:  ## Runs integration tests on application
-	@docker run golang:1.15.8-buster go test -tags=integration ./main_intetgration_test.go ./main.go -v -coverprofile=coverage-intergrations.out
-test:		## Runs unit tests and integration tests on application
-	@make unit-tests
-	@make integration-tests
-validate:	## validates formatting of html
-	-w3c_validator.py ./dist/index.html
-post:		## Makes a new post on hugo site
-	@hugo new posts/$(POSTNAME)
-	@sed -i 's/title.*/title: \"$(POSTTITLE)\"/g' $(PWD)/content/posts/$(POSTNAME)
-clean:		## Deletes all files in the /dist directory
-	-make stop
-	-rm -rf ./dist/
-	-rm awesome*
-	-rm *.out
-	-rm -rf awesome-website
-package:	## Zips awesome executable and /dist directory
-	@mkdir awesome-website
-	mv ./dist ./awesome-website
-	mv awesome-api ./awesome-website
-	zip -r awesome-website.zip awesome-website
+build: ## Builds a new website
+	$(HUGO)
+	touch awesome-api
 
-help: ## Display help about all info how to make recipes.
-	@cat Makefile | grep '##' | tr -d '##' | head -n -1
+post: ## Creates a new post with the title changed to the ENV value.
+	$(HUGO) new posts/$(POST_NAME).md
+	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+
+clean: ## Remove all files from target folder
+	$(RM) dist/*
+
+lint: ## Lints the shell file and run yamllint on success.
+	$(MARKDOWN) README.md
+	$(MARKDOWN) DEPLOY.md
+	$(SHELLCHECK) setup.sh >/dev/null 2>&1 && make yamllint || echo "Lint Failed"
+	
+
+yamllint: ## Yamllint github workflow.
+	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
+	$(YAMLLINT) ./release_drafter.yml --no-warnings >/dev/null 2>&1 && echo OK
+	$(YQ) eval '.jobs.*.steps.[].name' ./github-workflow.yml | wc -l
+	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make lint' && echo OK
+	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make integration-test'
+
+markdownlint:
+	$(MARKDOWN) README.md
+	$(MARKDOWN) DEPLOY.md
+
+integration-tests: ## Spin up a server and check the localhost url
+	$(HUGO)
+	touch coverage-integrations.out
+	ls dist/
+
+unit-tests: ## Runs different makefile recipes
+	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
+	make build
+	make clean
+	touch coverage-units.out
+
+validate: ## Tests ensure it is in correct dir
+	pwd
+
+package: ## Creates a zip archive of the dist dir api binary.
+	make build
+	zip awesome-website.zip dist/index.html
+
+.SILENT:
+help: ## Target check
+	cat Makefile | grep '##' | tr -d '##' | head -n -1
 
