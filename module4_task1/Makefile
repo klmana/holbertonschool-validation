@@ -6,7 +6,7 @@ YQ=yq
 MARKDOWN=markdownlint
 # Build the Docker image
 build-docker:
-	docker ps
+	CONTAINER_NAME=$(docker ps | grep "my-app" | awk '{print $NF}') && docker run -v /var/run/docker.sock:/var/run/docker.sock $CONTAINER_NAME
 	service docker start
 	docker -v
 	which docker
