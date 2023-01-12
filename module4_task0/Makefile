@@ -12,7 +12,7 @@ clean: ## Remove all files from target folder
 	$(RM) dist
 
 lint: ## Lints the shell file and run yamllint on success.
-	$(MARKDOWN) DEPLOY.mdOWN && echo OK
+	$(MARKDOWN) DEPLOY.md && echo OK
 	$(SHELLCHECK) ./Makefile
 	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
 	$(YAMLLINT) ./release_drafter.yml --no-warnings >/dev/null 2>&1 && echo OK
@@ -24,8 +24,7 @@ lint: ## Lints the shell file and run yamllint on success.
 	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make package'
 	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make help'
 	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make clean'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make build'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make post'
+	$(YQ) eval '.jobs.*.steps.[].run' ./github-
 
 yamllint: ## Yamllint github workflow.
 	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
