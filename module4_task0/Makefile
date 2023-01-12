@@ -1,12 +1,4 @@
-#!/usr/bin/make
 # Makefile for awesome-website
-
-HUGO=hugo
-RM=rm -rf
-SHELLCHECK=shellcheck
-YAMLLINT=yamllint
-YQ=yq
-MARKDOWN=markdownlint
 
 build: ## Builds a new website
 	hugo
