@@ -6,6 +6,8 @@ YQ=yq
 MARKDOWN=markdownlint
 # Build the Docker image
 build-docker:
+	docker -v
+	which docker
 	docker build -t awesome:build -f build/Dockerfile .
 
 build: build-docker
