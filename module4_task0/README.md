@@ -76,21 +76,27 @@ Post | Create a new blog post whose filename and title come from the environment
 
 # Workflow 
 * Build Workflow 
+* Clones the repo
+* Github actions runs make build in this directory every day and after every push
+* Go in the correct directory and execute the command `make help` to validate that the Makefile is present and implements the help target check.
 
-# Target
-* unit-tests
-* package
-* lint
-* integration-tests
-* clean
-* build
-* validate
-* post
-* help
-* lint: ## to execute a static analysis to lint this code.
-* @shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
-* lint	Lints the shell script setup.sh and on success runs make yamllint and lints markdown FILES
-
+## Target
+---
+ Command  | Tasks 
+ ---|---
+unit-tests | runs multiple make recipes.
+package | creates a zip archive of the the latest build and stores it under `awesome-website.zip
+integration-tests | runs make post and make build
+clean | Cleanup the content of the directory dist/
+build | Generate the website from the markdown and configuration files in the directory dist/
+validate | prints out the pwd
+post | Create a new blog post whose filename and title come from the environment variables POST_TITLE and POST_NAME
+help | Print out all build recipes
+lint | Lints the shell script setup.sh and on success runs make yamllint and lints markdown FILES
+yamllint | Lints the `github-workflow.yml` file
+markdownlint | lints the `README.md` and `DEPLOY.md` files
+lint: ## to execute a static analysis to lint this code.
+@shellcheck setup.sh >/dev/null 2>&1 || echo "Lint Failed"
 
 ## Author
 Karren - [Github https://github.com/klmana ]
