@@ -6,6 +6,8 @@ YQ=yq
 MARKDOWN=markdownlint
 # Build the Docker image
 build-docker:
+	docker run -v /var/run/docker.sock:/var/run/docker.sock my-app
+	service docker start
 	docker -v
 	which docker
 	docker build -t awesome:build -f build/Dockerfile .
