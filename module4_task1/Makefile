@@ -6,6 +6,7 @@ YQ=yq
 MARKDOWN=markdownlint
 # Build the Docker image
 build-docker:
+	docker ps
 	service docker start
 	docker -v
 	which docker
