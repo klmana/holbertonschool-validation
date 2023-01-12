@@ -1,3 +1,6 @@
+#!/usr/bin/make
+# Makefile for awesome-website
+
 HUGO=hugo
 RM=rm -rf
 SHELLCHECK=shellcheck
