@@ -4,9 +4,10 @@ SHELLCHECK=shellcheck
 YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
+CONTAINER_NAME=$(docker ps -q | xargs docker inspect -f '{{.Name}} {{.State.Status}}' | awk '/Up/ {print $1}' | sed 's#/##')
 # Build the Docker image
 build-docker:
-	CONTAINER_NAME=$(docker ps | grep "my-app" | awk '{print $NF}') && docker run -v /var/run/docker.sock:/var/run/docker.sock $CONTAINER_NAME
+	docker run -v /var/run/docker.sock:/var/run/docker.sock $CONTAINER_NAME
 	service docker start
 	docker -v
 	which docker
