@@ -1,0 +1,52 @@
+---
+name: module4_task1
+on:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: "0 0 * * *"
+  pull_request:
+    types: [opened, reopened, edited, ready_for_review]
+
+jobs:
+  module4_task1:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: docker run
+        run: |
+          cd module4_task1/
+          docker build -t my-app .
+          docker run -dp 8080:80 my-app
+          ./setup.sh
+          make build
+          make package
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: 1.0.1
+          files: |
+            module4_task1/awesome-website.zip
+            module4_task1/DEPLOY.md
+      - name: archive build
+        if: ${{ success()}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-package
+          path: module3_task5/awesome-website.zip
+
+      - name: deploy
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "./module4_task1/dist"
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "🎉 Published on"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
