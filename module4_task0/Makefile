@@ -37,12 +37,12 @@ markdownlint: ## Markdownlint README.md and DEPLOY.md.
 	$(MARKDOWN) README.md
 	$(MARKDOWN) DEPLOY.md
 
-integration-test: ## Spin up a server and check the localhost url
+integration-tests: ## Spin up a server and check the localhost url
 	hugo
 	touch coverage-integrations.out
 	ls dist/
 
-unit-test: ## Runs different makefile recipes
+unit-tests: ## Runs different makefile recipes
 	make build
 	make clean
 	touch coverage-units.out
@@ -52,7 +52,6 @@ validate: ## Tests ensure it is in correct dir
 
 package: ## Creates a zip archive of the dist dir api binary.
 	make build
-	mv ./dist ./awesome-website
 	zip awesome-website.zip dist/index.html
 
 help: ## Target check
