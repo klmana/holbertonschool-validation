@@ -8,9 +8,12 @@ MARKDOWN=markdownlint
 build-docker:
 	docker build -t awesome:build -f build/Dockerfile .
 
-build: ## Builds a new website
-	$(HUGO)
-	touch awesome-api
+build: build-docker
+	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
+	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
+
+build-website:
+	hugo --source . --destination dist
 
 post: ## Creates a new post with the title changed to the ENV value.
 	$(HUGO) new posts/$(POST_NAME).md
