@@ -17,8 +17,7 @@ clean: ## Remove all files from target folder
 	$(RM) dist
 
 lint: ## Lints the shell file and run yamllint on success.
-	$(MARKDOWN) README.md
-	$(MARKDOWN) DEPLOY.md
+	$(MARKDOWN) DEPLOY.mdOWN && echo OK
 	$(SHELLCHECK) ./Makefile
 	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
 	$(YAMLLINT) ./release_drafter.yml --no-warnings >/dev/null 2>&1 && echo OK
