@@ -18,7 +18,7 @@ jobs:
         run: |
           cd module4_task0/
           docker build -t my-app .
-          docker run -dp 80:80 my-app
+          docker run -dp 8080:80 my-app
           ./setup.sh
           make build
           make package
