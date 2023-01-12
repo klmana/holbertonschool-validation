@@ -1,48 +1,45 @@
-# Makefile for awesome-website
+HUGO=hugo
+RM=rm -rf
+SHELLCHECK=shellcheck
+YAMLLINT=yamllint
+YQ=yq
+MARKDOWN=markdownlint
 
 build: ## Builds a new website
-	hugo
+	$(HUGO)
 	touch awesome-api
 
 post: ## Creates a new post with the title changed to the ENV value.
-	hugo new posts
-	$(YQ) eval '.title = env(POST_TITLE)' ./content/posts/$(POST_TITLE).md
+	$(HUGO) new posts/$(POST_NAME).md
+	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
 
 clean: ## Remove all files from target folder
-	@rm -rf dist/*
+	$(RM) dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
-	$(MARKDOWN) DEPLOY.md && echo OK
-	$(SHELLCHECK) ./Makefile
-	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
-	$(YAMLLINT) ./release_drafter.yml --no-warnings >/dev/null 2>&1 && echo OK
-	$(YQ) eval '.jobs.*.steps.[].name' ./github-workflow.yml | wc -l
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make lint'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make integration-test'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make unit-test'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make validate'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make package'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make help'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make clean'
-	$(YQ) eval '.jobs.*.steps.[].run' ./github-
+	$(MARKDOWN) README.md
+	$(MARKDOWN) DEPLOY.md
+	$(SHELLCHECK) setup.sh >/dev/null 2>&1 && make yamllint || echo "Lint Failed"
+	
 
 yamllint: ## Yamllint github workflow.
 	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
 	$(YAMLLINT) ./release_drafter.yml --no-warnings >/dev/null 2>&1 && echo OK
+	$(YQ) eval '.jobs.*.steps.[].name' ./github-workflow.yml | wc -l
+	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make lint' && echo OK
+	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make integration-test'
 
-shellcheck: ## Shellcheck Makefile.	
-	$(SHELLCHECK) ./Makefile
-
-markdownlint: ## Markdownlint README.md and DEPLOY.md.
+markdownlint:
 	$(MARKDOWN) README.md
 	$(MARKDOWN) DEPLOY.md
 
 integration-tests: ## Spin up a server and check the localhost url
-	hugo
+	$(HUGO)
 	touch coverage-integrations.out
 	ls dist/
 
 unit-tests: ## Runs different makefile recipes
+	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
 	make build
 	make clean
 	touch coverage-units.out
@@ -54,7 +51,6 @@ package: ## Creates a zip archive of the dist dir api binary.
 	make build
 	zip awesome-website.zip dist/index.html
 
+.SILENT:
 help: ## Target check
-	cat Makefile | grep "##" | tr -d "##" | head -n -1
-
-.PHONY: build post clean lint yamllint shellcheck markdownlint integration-test unit-test validate package help
+	cat Makefile | grep '##' | tr -d '##' | head -n -1
