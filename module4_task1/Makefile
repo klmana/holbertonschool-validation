@@ -4,6 +4,9 @@ SHELLCHECK=shellcheck
 YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
+# Build the Docker image
+build-docker:
+	docker build -t awesome:build -f build/Dockerfile .
 
 build: ## Builds a new website
 	$(HUGO)
