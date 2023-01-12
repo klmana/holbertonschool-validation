@@ -10,8 +10,8 @@ build: ## Builds a new website
 	touch awesome-api
 
 post: ## Creates a new post with the title changed to the ENV value.
-	$(HUGO) new posts/$(POST_NAME).md
-	sed -i '2s/.*/title: "$(POST_TITLE)"/' content/posts/$(POST_NAME).md
+	hugo new posts
+	$(YQ) eval '.title = env(POST_TITLE)' ./content/posts/$(POST_TITLE).md
 
 clean: ## Remove all files from target folder
 	$(RM) dist
@@ -62,6 +62,6 @@ package: ## Creates a zip archive of the dist dir api binary.
 	zip awesome-website.zip dist/index.html
 
 help: ## Target check
-	cat Makefile | grep '##' | tr -d '##' | head -n -1
+	cat Makefile | grep "##" | tr -d "##" | head -n -1
 
 .PHONY: build post clean lint yamllint shellcheck markdownlint integration-test unit-test validate package help
