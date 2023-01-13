@@ -6,7 +6,7 @@ YQ=yq
 MARKDOWN=markdownlint
 # Build the Docker image
 build-docker:
-	docker build -t awesome:build -f docker/Dockerfile .
+	docker build -t awesome:build ./build
 
 build: build-docker ## Build the website and api
 	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
