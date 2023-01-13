@@ -1,5 +1,5 @@
 ---
-name: module3_task0
+name: module4_task1
 
 on:
   push:
@@ -18,5 +18,5 @@ jobs:
 
       - name: Navigate to project directory
         run: |
-          cd module3_task0/
+          cd module4_task1/
           make help
