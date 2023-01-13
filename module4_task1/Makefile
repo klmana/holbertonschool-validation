@@ -4,13 +4,8 @@ SHELLCHECK=shellcheck
 YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
-container_name=docker ps | xargs docker inspect -f '{{.Name}} {{.State.Status}}' | awk '/Up/ {print $1}' | sed 's#/##'
 # Build the Docker image
 build-docker:
-	docker run -v /var/run/docker.sock:/var/run/docker.sock my-app
-	service docker start
-	docker -v
-	which docker
 	docker build -t awesome:build -f build/Dockerfile .
 
 build: build-docker ## Build the website and api
