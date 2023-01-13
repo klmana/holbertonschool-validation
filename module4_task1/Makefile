@@ -13,13 +13,7 @@ build-docker:
 	which docker
 	docker build -t awesome:build -f build/Dockerfile .
 
-build: ## Build the website and api
-	make build-api
-	make build-website
-	go build -o awesome-api
-
 build: build-docker ## Build the website and api
-	docker run --rm -v $(PWD):/app -w /app awesome:build make build-api
 	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
 	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
 
