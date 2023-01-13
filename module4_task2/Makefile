@@ -8,6 +8,9 @@ MARKDOWN=markdownlint
 build-docker:## Build the Docker image
 	docker build -t awesome:build -f build/Dockerfile .
 
+docker-tests:## Build the Docker image
+	docker build -t awesome:build -f build/Dockerfile .
+
 build: build-docker ## Build the website and api
 	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
 	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
