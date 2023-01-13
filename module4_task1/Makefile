@@ -23,9 +23,7 @@ clean: ## Remove all files from target folder
 	$(RM) dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
-	$(MARKDOWN) README.md
-	$(MARKDOWN) DEPLOY.md
-	$(SHELLCHECK) setup.sh >/dev/null 2>&1 && make yamllint || echo "Lint Failed"
+	docker run awesome:build sh -c "make _shellcheck && make markdownlint || echo 'Lint Failed'"
 	
 
 yamllint: ## Yamllint github workflow.
@@ -40,14 +38,14 @@ markdownlint:
 	$(MARKDOWN) DEPLOY.md
 
 integration-tests: ## Spin up a server and check the localhost url
-	$(HUGO)
+	docker run awesome:build sh -c "hugo; make _clean; make _integration-tests;"
+	make _integration-tests;
+
+_integration-tests:
 	touch coverage-integrations.out
-	ls dist/
 
 unit-tests: ## Runs different makefile recipes
-	make POST_TITLE='TEST' POST_NAME='this-is-a-test' post
-	make build
-	make clean
+	docker run awesome:build sh -c "hugo; make _clean; make _unit-tests;"
 	touch coverage-units.out
 
 validate: ## Tests ensure it is in correct dir
