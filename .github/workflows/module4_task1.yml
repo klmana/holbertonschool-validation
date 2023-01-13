@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
       - name: docker run
         run: |
-          cd module4_task1/
+          cd module4_task0/
           docker build -t my-app .
           docker run -dp 8080:80 my-app
           ./setup.sh
