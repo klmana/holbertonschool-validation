@@ -5,7 +5,7 @@ YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
 
-build-docker: # Build the Docker image
+build-docker: ## Build the Docker image
 	docker build -t awesome:build -f build/Dockerfile .
 
 build: build-docker ## Build the website and api
