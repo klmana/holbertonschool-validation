@@ -84,6 +84,7 @@ Post | Create a new blog post whose filename and title come from the environment
 * integration-tests
 * clean
 * build
+* build-docker
 * validate
 * post
 * help
