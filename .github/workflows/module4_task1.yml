@@ -20,8 +20,12 @@ jobs:
           docker build -t my-app .
           docker run -dp 8080:80 my-app
           ./setup.sh
+          make lint
+          make clean
           make build
-          make package
+          make unit-tests
+          make integration-tests
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
