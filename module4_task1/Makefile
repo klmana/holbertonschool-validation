@@ -4,15 +4,15 @@ SHELLCHECK=shellcheck
 YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
-# Build the Docker image
-build-docker:
+
+build-docker: # Build the Docker image
 	docker build -t awesome:build -f build/Dockerfile .
 
 build: build-docker ## Build the website and api
 	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
 	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
 
-build-website:
+build-website:# Build the website
 	hugo --source . --destination dist
 
 post: ## Creates a new post with the title changed to the ENV value.
@@ -33,7 +33,7 @@ yamllint: ## Yamllint github workflow.
 	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make lint' && echo OK
 	$(YQ) eval '.jobs.*.steps.[].run' ./github-workflow.yml | grep -q 'make integration-test'
 
-markdownlint:
+markdownlint: # Build the markdownlint
 	$(MARKDOWN) README.md
 	$(MARKDOWN) DEPLOY.md
 
