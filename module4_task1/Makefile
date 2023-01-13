@@ -13,7 +13,13 @@ build-docker:
 	which docker
 	docker build -t awesome:build -f build/Dockerfile .
 
-build: build-docker
+build: ## Build the website and api
+	make build-api
+	make build-website
+	go build -o awesome-api
+
+build: build-docker ## Build the website and api
+	docker run --rm -v $(PWD):/app -w /app awesome:build make build-api
 	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
 	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
 
@@ -61,6 +67,7 @@ validate: ## Tests ensure it is in correct dir
 package: ## Creates a zip archive of the dist dir api binary.
 	make build
 	zip awesome-website.zip dist/index.html
+	zip awesome-api.zip awesome-api
 
 .SILENT:
 help: ## Target check
