@@ -2,6 +2,8 @@ FROM golang:1.15.8-buster
 WORKDIR /module4_task1
 COPY . .
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl=* zip=* && \
     rm -rf /var/lib/apt/lists/*
@@ -22,7 +24,8 @@ RUN node --version && \
     npm install -g markdownlint-cli@* && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends docker.io=* python3-pip=* jq=* && \
-    pip3 install --no-cache-dir awscli==*
+    pip3 install --no-cache-dir awscli==* && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN make build && \
     make package
