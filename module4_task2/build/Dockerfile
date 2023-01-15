@@ -15,7 +15,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
     nvm install ${NODE_VERSION} && \
     nvm use v${NODE_VERSION} && \
     nvm alias default v${NODE_VERSION} && \
-    PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+    PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}" \
     node --version && \
     npm --version && \
     curl -L https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_linux-amd64.deb -o hugo.deb && \
@@ -24,6 +24,6 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
     apt-get update -y && \
     apt-get install -y --no-install-recommends docker.io=* python3-pip=* jq=* && \
     pip3 install --no-cache-dir awscli==* && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* \
     make build && \
     make package
