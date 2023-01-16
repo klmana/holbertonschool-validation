@@ -12,12 +12,6 @@ jobs:
   module4_task2:
     runs-on: ubuntu-18.04
     steps:
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
-          heroku_email: "YOUR EMAIL"
-          usedocker: true
       - name: Checkout
         uses: actions/checkout@v3
       - name: docker run
@@ -49,18 +43,11 @@ jobs:
           path: module3_task5/awesome-website.zip
 
       - name: deploy
-        uses: nwtgck/actions-netlify@v1.2
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          publish-dir: "./module4_task4/dist"
-          production-branch: master
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "🎉 Published on"
-          enable-pull-request-comment: true
-          enable-commit-comment: true
-          overwrites-pull-request-comment: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 1
-name: Deploy
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+          usedocker: true
+    name: Deploy
 
