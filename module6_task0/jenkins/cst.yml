@@ -2,7 +2,13 @@
 schemaVersion: "2"
 tests:
   - name: "Check for plugins"
-    command: ["sh", "-c", "for plugin in $(cat /usr/share/jenkins/ref/plugins.txt); do echo $plugin;done | xargs -n 1 basename | xargs -n 1 find /usr/share/jenkins/ref/plugins/ -name"]
+    command: [
+      "sh",
+      "-c",
+      "for plugin in $(cat /usr/share/jenkins/ref/plugins.txt); do echo $plugin;done | \
+      xargs -n 1 basename | \
+      xargs -n 1 find /usr/share/jenkins/ref/plugins/ -name"
+    ]
     # The above command lists the plugins and their versions installed in the image, it checks that the plugins listed in plugins.txt are present in the correct location
 
   - name: "Check Java version"
