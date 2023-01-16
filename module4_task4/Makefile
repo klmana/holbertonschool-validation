@@ -23,7 +23,7 @@ clean: ## Remove all files from target folder
 	$(RM) dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
-	hadolint ./build/Dockerfile
+	hadolint .Dockerfile
 	
 
 yamllint: ## Yamllint github workflow.
