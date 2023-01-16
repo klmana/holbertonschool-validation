@@ -5,9 +5,6 @@ YAMLLINT=yamllint
 YQ=yq
 MARKDOWN=markdownlint
 
-build-docker:## Build the Docker image
-	docker build -t awesome:build -f build/Dockerfile .
-
 docker-tests:## Build the Docker image
 	docker build -t awesome:build -f build/Dockerfile .
 
