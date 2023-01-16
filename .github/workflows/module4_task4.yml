@@ -14,10 +14,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: docker run
+      - name: Build Docker Image
         run: |
           cd module4_task0/
           docker build -t my-app .
+      - name: Run tests
+        run: |
           docker run -dp 8080:80 my-app
           ./setup.sh
           make lint
@@ -25,9 +27,14 @@ jobs:
           make build
           make unit-tests
           make integration-tests
-
-      #- name: docker-tests
-
+      - name: Tag and Push Docker Image to Heroku
+        run: |
+          docker tag my-app registry.heroku.com/gentle-stream-93938/web
+          docker push registry.heroku.com/gentle-stream-93938/web
+        env:
+          HEROKU_API_KEY: c0584d1d-6f7e-4a3a-92c2-a147718815f5
+          HEROKU_APP_NAME: gentle-stream-93938
+          HEROKU_EMAIL: km@rtin.mobi
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -41,12 +48,3 @@ jobs:
         with:
           name: upload-package
           path: module3_task5/awesome-website.zip
-
-      - name: deploy
-        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: c0584d1d-6f7e-4a3a-92c2-a147718815f5
-          heroku_app_name: gentle-stream-93938
-          heroku_email: km@rtin.mobi
-          dontuseforce: true
-          usedocker: true
