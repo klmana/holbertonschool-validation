@@ -6,7 +6,7 @@ YQ=yq
 MARKDOWN=markdownlint
 
 build-docker: ## Build the Docker image
-	docker build -t awesome:build -f build/
+	docker build -t "awesome:build" ./build
 
 build:## Build the website and api 
 	sudo apt install ./hugo.deb
