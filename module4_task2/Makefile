@@ -50,6 +50,7 @@ _integration-tests:## Build the Docker image
 unit-tests: ## Runs different makefile recipes
 	docker run awesome:build sh -c "hugo; make _clean; make _unit-tests;"
 	touch coverage-units.out
+	
 
 validate: ## Tests ensure it is in correct dir
 	pwd
