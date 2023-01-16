@@ -26,8 +26,7 @@ clean: ## Remove all files from target folder
 	$(RM) dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
-	build-docker
-	docker run awesome:build sh -c "make _shellcheck && make markdownlint || echo 'Lint Failed'"
+	hadolint ./build/Dockerfile
 	
 
 yamllint: ## Yamllint github workflow.
