@@ -20,6 +20,7 @@ jobs:
           docker build -t my-app .
       - name: Tag and Push Docker Image to Heroku
         run: |
+          docker login --username=km@rtin.mobi --password=c0584d1d-6f7e-4a3a-92c2-a147718815f5 registry.heroku.com
           docker tag my-app registry.heroku.com/gentle-stream-93938/web
           docker push registry.heroku.com/gentle-stream-93938/web
         env:
