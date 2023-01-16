@@ -45,9 +45,7 @@ jobs:
       - name: deploy
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
-          heroku_email: "YOUR EMAIL"
+          heroku_api_key: c0584d1d-6f7e-4a3a-92c2-a147718815f5
+          heroku_app_name: gentle-stream-93938
+          heroku_email: km@rtin.mobi
           usedocker: true
-    name: Deploy
-
