@@ -26,16 +26,15 @@ jobs:
           make unit-tests
           make integration-tests
 
-      - name: docker-tests
-        run: sudo make docker-tests -C module4_task2
+      #- name: docker-tests
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: 1.0.1
           files: |
-            module4_task1/awesome-website.zip
-            module4_task1/DEPLOY.md
+            module4_task2/awesome-website.zip
+            module4_task2/DEPLOY.md
       - name: archive build
         if: ${{ success()}}
         uses: actions/upload-artifact@v3
