@@ -20,7 +20,7 @@ jobs:
           docker build -t my-app .
       - name: Copy setup script
         run: |
-          cp path/to/setup.sh .
+          cp ./setup.sh .
       - name: Run tests
         run: |
           docker run -dp 8080:80 my-app
