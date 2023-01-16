@@ -12,6 +12,12 @@ jobs:
   module4_task2:
     runs-on: ubuntu-18.04
     steps:
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "YOUR APP's NAME" #Must be unique in Heroku
+          heroku_email: "YOUR EMAIL"
+          usedocker: true
       - name: Checkout
         uses: actions/checkout@v3
       - name: docker run
@@ -56,3 +62,5 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+name: Deploy
+
