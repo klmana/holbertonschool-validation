@@ -1,5 +1,5 @@
 ---
-name: module4_task2
+name: module4_task3
 on:
   push:
     branches: [main, master]
@@ -33,8 +33,8 @@ jobs:
         with:
           tag_name: 1.0.1
           files: |
-            module4_task2/awesome-website.zip
-            module4_task2/DEPLOY.md
+            module4_task3/awesome-website.zip
+            module4_task3/DEPLOY.md
       - name: archive build
         if: ${{ success()}}
         uses: actions/upload-artifact@v3
@@ -45,7 +45,7 @@ jobs:
       - name: deploy
         uses: nwtgck/actions-netlify@v1.2
         with:
-          publish-dir: "./module4_task2/dist"
+          publish-dir: "./module4_task3/dist"
           production-branch: master
           github-token: ${{ secrets.GITHUB_TOKEN }}
           deploy-message: "🎉 Published on"
