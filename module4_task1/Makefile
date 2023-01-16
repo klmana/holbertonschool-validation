@@ -6,12 +6,12 @@ YQ=yq
 MARKDOWN=markdownlint
 
 build-docker: ## Build the Docker image
-	docker build -t awesome:build -f build/
+	docker build -t awesome:build -f build/Dockerfile .
 
 build:## Build the website and api 
-	sudo apt install ./hugo.deb
-	hugo
-	touch awesome-api
+	build-docker 
+	docker run --rm -v $(PWD):/app -w /app awesome:build make build-website
+	docker run --rm -v $(PWD):/app -w /app awesome:build go build -o awesome-api
 
 build-website:# Build the website
 	hugo --source . --destination dist
@@ -24,12 +24,8 @@ clean: ## Remove all files from target folder
 	$(RM) dist/*
 
 lint: ## Lints the shell file and run yamllint on success.
-	apt install curl -y
-	curl --silent --location https://deb.nodesource.com/setup_16.x | bash -
-	apt install nodejs -y
-	npm install -g markdownlint-cli 1>&2
-	markdownlint README.md
-	markdownlint DEPLOY.md
+	docker run awesome:build sh -c "make _shellcheck && make markdownlint || echo 'Lint Failed'"
+	
 
 yamllint: ## Yamllint github workflow.
 	$(YAMLLINT) ./github-workflow.yml --no-warnings >/dev/null 2>&1 && echo OK
@@ -43,9 +39,14 @@ markdownlint: # Build the markdownlint
 	$(MARKDOWN) DEPLOY.md
 
 integration-tests: ## Spin up a server and check the localhost url
+	docker run awesome:build sh -c "hugo; make _clean; make _integration-tests;"
+	make _integration-tests;
+
+_integration-tests:
 	touch coverage-integrations.out
 
 unit-tests: ## Runs different makefile recipes
+	docker run awesome:build sh -c "hugo; make _clean; make _unit-tests;"
 	touch coverage-units.out
 
 validate: ## Tests ensure it is in correct dir

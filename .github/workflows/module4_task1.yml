@@ -22,7 +22,7 @@ jobs:
           ./setup.sh
           make lint
           make clean
-          sudo make build
+          make build
           make unit-tests
           make integration-tests
 
