@@ -10,7 +10,9 @@ RUN apt-get update && \
 
 ENV NODE_VERSION=16.13.0
 
-RUN nvm use v$ && \
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash && \
+    nvm install ${NODE_VERSION} && \
+    nvm use v$ && \
     nvm alias default v${NODE_VERSION} && \
     PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}" \
     node --version && \
