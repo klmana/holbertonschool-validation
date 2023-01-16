@@ -5,13 +5,13 @@ tests:
     command: [
       "sh",
       "-c",
-      "for plugin in $(cat 
+      "for plugin in $(cat
       /usr/share/jenkins/ref/plugins.txt); do echo
       xargs -n 1 basename | \
       xargs -n 1 find /usr/share/jenkins/ref/plugins/ -name"
     ]
-    # The above command lists the plugins and their versions 
-    # installed in the image, it checks that the plugins listed 
+    # The above command lists the plugins and their versions
+    # installed in the image, it checks that the plugins listed
     # in plugins.txt are present in the correct location
 
   - name: "Check Java version"
