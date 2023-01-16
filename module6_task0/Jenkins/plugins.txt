@@ -1,0 +1,4 @@
+blueocean:1.23.3
+docker-workflow:2.31
+git:4.0.0
+pipeline-utility-steps:2.5.1
