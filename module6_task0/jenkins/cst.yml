@@ -16,4 +16,4 @@ tests:
 
   - name: "Check Java version"
     command: ["java", "-version"]
-    expectedOutput: "11"
+    expectedOutput: "11."
