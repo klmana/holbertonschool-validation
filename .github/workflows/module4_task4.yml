@@ -18,9 +18,9 @@ jobs:
         run: |
           cd module4_task0/
           docker build -t my-app .
-      - name: Copy setup script
-        run: |
-          cp setup.sh .
+     # - name: Copy setup script
+      #  run: |
+       #   cp setup.sh .
       - name: Run tests
         run: |
           docker run -dp 8080:80 my-app
