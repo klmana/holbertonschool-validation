@@ -6,7 +6,7 @@ tests:
       "sh",
       "-c",
       "for plugin in $(cat
-      /usr/share/jenkins/ref/plugins.txt); do echo
+      /jenkins/plugins.txt); do echo
       xargs -n 1 basename | \
       xargs -n 1 find /usr/share/jenkins/ref/plugins/ -name"
     ]
