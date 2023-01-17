@@ -18,10 +18,6 @@ CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 FROM ubuntu:22.04
 WORKDIR /module6_task0
 
-
-# install app dependencies
-RUN apt-get update && apt-get install -y python3 python3-pip
-
 # final configuration
 ENV FLASK_APP=hello
 EXPOSE 8000
