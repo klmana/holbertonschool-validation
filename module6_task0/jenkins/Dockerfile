@@ -16,12 +16,11 @@ CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 # syntax=docker/dockerfile:1
 FROM ubuntu:22.04
-RUN apt-get update && apt-get install -y python3 python3-pip 
-RUN pip install flask==2.1.*
+WORKDIR /module6_task0
+
 
 # install app dependencies
 RUN apt-get update && apt-get install -y python3 python3-pip
-RUN pip install flask==2.1.*
 
 # final configuration
 ENV FLASK_APP=hello
