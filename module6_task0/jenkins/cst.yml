@@ -1,19 +1,20 @@
----
-schemaVersion: "2"
-tests:
-  - name: "Check for plugins"
-    command: [
-      "sh",
-      "-c",
-      "for plugin in $(cat
-      /jenkins/plugins.txt); do echo
-      xargs -n 1 basename | \
-      xargs -n 1 find /usr/share/jenkins/ref/plugins/ -name"
-    ]
-    # The above command lists the plugins and their versions
-    # installed in the image, it checks that the plugins listed
-    # in plugins.txt are present in the correct location
+schemaVersion: "2.0.0"
 
-  - name: "Check Java version"
-    command: ["java", "-version"]
-    expectedOutput: "11."
+fileTests:
+  - name: "Check for plugins in correct location"
+    path: "/usr/share/jenkins/ref/plugins"
+    type: directory
+    fileExists:
+      - name: "Check for plugin in plugins.txt"
+        path: "{{ item }}"
+        for:
+          - "{{ range .plugins }}"
+          - "{{ . }}"
+          - "{{ end }}"
+
+  - name: "Check for Java version 11"
+    path: "/usr/bin/java"
+    type: file
+    exec:
+      command: ["java", "-version"]
+      expectedOutput: "version 11"

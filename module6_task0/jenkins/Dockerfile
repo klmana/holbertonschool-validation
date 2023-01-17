@@ -6,10 +6,10 @@ USER root
 # Disable the initial setup wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
-# Copy the plugins.txt file into the image
-COPY plugins.txt /jenkins/
+# Copy the plugins.txt file to the container
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
-# Install the plugins defined in the plugins.txt file
-RUN /usr/local/bin/install-plugins.sh < /jenkins/plugins.txt
+# Install the plugins defined in the plugins.txt file with fixed version 
+RUN jenkins-plugin-cli --plugins-file /usr/share/jenkins/ref/plugins.txt --install
 
 USER jenkins
