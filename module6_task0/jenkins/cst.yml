@@ -1,6 +1,7 @@
 ---
 schemaVersion: "2.0.0"
 
+
 test:
   - name: 'plugins.txt'
     path: './jenkins/'
@@ -10,3 +11,4 @@ test:
     command: java -version
     expectedOutput:
       - ['openjdk version "11.*']
+      - java -jar jenkins-cli.jar -s <Jenkins_URL> list-plugins
