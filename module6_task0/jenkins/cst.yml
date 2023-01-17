@@ -1,23 +1,14 @@
 ---
 schemaVersion: "2.0.0"
 
-fileTests:
-  - name: "Check for plugins in correct location"
-    path: "/usr/share/jenkins/ref/plugins"
-    type: directory
-    fileExists:
-      - name: "Check for plugin in plugins.txt"
-        path: "{{ item }}"
-        for:
-          - "{{ range .plugins }}"
-          - "{{ . }}"
-          - "{{ end }}"
-
-  - name: "Check for Java version 11"
-    path: "/usr/bin/java"
-    type: file
-    exec:
-      command: ["java -version"]
-      expectedOutput: "OpenJDK Runtime Environment \
-                      Microsoft-25199 (build 11.0.12+7) \
-        OpenJDK 64-Bit Server VM Microsoft-25199 (build 11.0.12+7, mixed mode)"
+test:
+  - name: "check-plugins"
+    command: ["/bin/bash", "-c", "ls /usr/share/jenkins/ref/plugins/"]
+    expectedOutput:
+      - "git.hpi"
+      - "git-client.hpi"
+      - "git-server.hpi"
+  - name: "check-java-version"
+    command: ["java", "-version"]
+    expectedOutput:
+      - "openjdk version 11"

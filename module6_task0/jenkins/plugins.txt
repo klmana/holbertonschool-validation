@@ -1,4 +1,6 @@
 blueocean:1.23.3
 docker-workflow:2.31
-git:4.0.0
+git:4.4.1
+git-client:4.0.0
+git-server:1.9
 pipeline-utility-steps:2.5.1
