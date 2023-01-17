@@ -14,6 +14,7 @@ RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 # Copy the groovy scripts to the container
 CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
+
 # syntax=docker/dockerfile:1
 FROM ubuntu:22.04
 WORKDIR /module6_task0
