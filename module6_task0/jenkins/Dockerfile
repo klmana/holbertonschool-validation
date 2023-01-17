@@ -9,10 +9,7 @@ ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
 # Install the plugins defined in the plugins.txt file with fixed version 
-RUN jenkins-plugin-cli --plugins-file /usr/share/jenkins/ref/plugins.txt --install --available-updates
-
-# Install the plugins defined in the plugins.txt file with latest version
-RUN jenkins-plugin-manager --plugins-file /usr/share/jenkins/ref/plugins.txt --install --available-updates
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 # Copy the seed job to the container
 CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]

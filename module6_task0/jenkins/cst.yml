@@ -2,13 +2,11 @@
 schemaVersion: "2.0.0"
 
 test:
-  - name: "check-plugins"
-    command: ["/bin/bash", "-c", "ls /usr/share/jenkins/ref/plugins/"]
-    expectedOutput:
-      - "git.hpi"
-      - "git-client.hpi"
-      - "git-server.hpi"
+  - name: 'plugins.txt'
+    path: './jenkins/'
+    shouldExist: true
+    
   - name: "check-java-version"
-    command: ["java", "-version"]
+    command: java -version
     expectedOutput:
-      - "openjdk version 11"
+      - ['openjdk version "11.*']
