@@ -9,7 +9,7 @@ on:
     types: [opened, reopened, edited, ready_for_review]
 
 jobs:
-  module4_task4:
+  module6_task0:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
