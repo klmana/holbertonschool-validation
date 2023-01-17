@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:lts-jdk11
 WORKDIR /module6_task0
-USER root
+USER jenkins
 
 # Disable the initial setup wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
@@ -13,7 +13,6 @@ RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 # Copy the groovy scripts to the container
 CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
-CMD [ "/docker-gs-ping" ]
 
 # syntax=docker/dockerfile:1
 FROM ubuntu:22.04
