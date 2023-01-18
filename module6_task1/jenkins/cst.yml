@@ -11,4 +11,3 @@ test:
     command: java -version
     expectedOutput:
       - ['openjdk version "11.*']
-

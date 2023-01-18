@@ -11,7 +11,6 @@ COPY jenkins/jenkins.yml /var/jenkins_home/
 
 
 # Install the plugins defined in the plugins.txt file with fixed version 
-RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 RUN  jenkins-plugin-cli --plugins configuration-as-code -v 1.32
 
 
