@@ -7,6 +7,9 @@ The archive can be found under either in uploads or releases if a tags is used v
 
 ### To unarchive the package
 
+Run the command:
+`unzip awesome-website.zip`
+
 ## What are the commands to start and stop the application
 
 To run the application use:
