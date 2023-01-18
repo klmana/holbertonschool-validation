@@ -1,0 +1,14 @@
+---
+schemaVersion: "2.0.0"
+
+
+test:
+  - name: 'plugins.txt'
+    path: './jenkins/'
+    shouldExist: true
+
+  - name: "check-java-version"
+    command: java -version
+    expectedOutput:
+      - ['openjdk version "11.*']
+

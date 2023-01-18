@@ -1,0 +1,14 @@
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: jenkins-admin
+          password: '{CLEARTEXT}butler'
+        - id: devops
+          password: '{CLEARTEXT}cicdsecret'
+  authorizationStrategy:
+    fullControl:
+      user: jenkins-admin
+  disabledAdministrativeMonitors:
+    - "jenkins.diagnostics.ControllerExecutorsNoAgents"
