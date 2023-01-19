@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.13@sha256:469b6e04ee185740477efa44ed5bdd64a07bbdd6c7e5f5d169e540889597b911
 
 FROM golang:1.15.8-buster
 WORKDIR /module4_task1
