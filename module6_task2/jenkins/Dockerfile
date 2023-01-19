@@ -19,7 +19,7 @@ CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 
 # syntax=docker/dockerfile:1
-FROM ubuntu:22.04
+FROM ubuntu:22.04@sha256:27cb6e6ccef575a4698b66f5de06c7ecd61589132d5a91d098f7f3f9285415a9
 WORKDIR /module6_task2
 
 USER jenkins
