@@ -1,0 +1,10 @@
+version: '3'
+services:
+  service_name_1:
+    image: image_name
+    ports:
+      - "8080:8080"
+  service_name_2:
+    image: image_name
+    environment:
+      - VARIABLE_NAME=value

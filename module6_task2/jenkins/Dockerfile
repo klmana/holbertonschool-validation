@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:lts-jdk11
 WORKDIR /module6_task2
-USER jenkins
+USER ./jenkins
 
 # Disable the initial setup wizard
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
@@ -22,4 +22,4 @@ CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 FROM ubuntu:22.04
 WORKDIR /module6_task2
 
-USER jenkins
+USER /.jenkins
