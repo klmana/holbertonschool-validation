@@ -18,4 +18,4 @@ else
 fi
 
 # check if all packages are up to date
-ssh ubuntu@$1 'sudo apt
+ssh ubuntu@$1 'sudo apt update'
