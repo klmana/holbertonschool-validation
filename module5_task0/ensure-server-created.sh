@@ -18,7 +18,7 @@ else
   aws ec2 authorize-security-group-ingress --group-id "$sg_id" --protocol tcp --port 443 --cidr 0.0.0.0/0
 
   # create the instance
-  instance_id=$(aws ec2 run-instances --image-id ami-0ac019f4fcb7cb7e6 --instance-type t3.micro --key-name awesome-key --security-group-ids "$sg_id" --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=awesome-server}]" --query 'Instances[0].InstanceId" --output text)
+  instance_id=$(aws ec2 run-instances --image-id ami-0ac019f4fcb7cb7e6 --instance-type t3.micro --key-name awesome-key --security-group-ids "$sg_id" --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=awesome-server}]' --query 'Instances[0].InstanceId' --output text)
   dns=$(aws ec2 describe-instances --instance-ids "$instance_id" --query "Reservations[].Instances[].PublicDnsName" --output text)
-  echo "Server created with public DNS name: $dns"
+  echo 'Server created with public DNS name: $dns'
 fi
