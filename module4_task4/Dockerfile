@@ -1,6 +1,6 @@
 FROM alpine:3.13@sha256:469b6e04ee185740477efa44ed5bdd64a07bbdd6c7e5f5d169e540889597b911
 
-FROM golang:1.15.8-buster
+FROM golang:1.15.8-buster@sha256:56e443b088657df2d9ff891b043aead11aedd94f8413959a93364af22564d6d7
 WORKDIR /module4_task1
 COPY . .
 
