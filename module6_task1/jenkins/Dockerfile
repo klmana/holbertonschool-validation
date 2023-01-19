@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:lts-jdk11@sha256:f8b19176b7d4f62cc40ae8605fbbfb2abc6ed7aec9f36989fc7b3e616371b956
 WORKDIR /module6_task1
 USER jenkins
 
@@ -19,7 +19,7 @@ CMD ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
 
 # syntax=docker/dockerfile:1
-FROM ubuntu:22.04
+FROM ubuntu:22.04@sha256:27cb6e6ccef575a4698b66f5de06c7ecd61589132d5a91d098f7f3f9285415a9
 WORKDIR /module6_task1
 
 USER jenkins
