@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:lts-jdk11@sha256:f8b19176b7d4f62cc40ae8605fbbfb2abc6ed7aec9f36989fc7b3e616371b956
 WORKDIR /module6_task2
 USER jenkins
 
