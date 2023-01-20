@@ -12,10 +12,11 @@ else
 fi
 
 # check if the ingress rule already exists
-existing_rule=$(aws ec2 describe-security-groups --group-ids "$sg_id" --query "SecurityGroups[].IpPermissions[?FromPort=='22'].IpRanges[?CidrIp=='0.0.0.0/0']" --output text)
-if [ -z "$existing_rule" ]; then
-    # authorize security group ingress
-    aws ec2 authorize-security-group-ingress --group-id "$sg_id" --protocol tcp --port 22 --cidr 0.0.0.0/0
-else
-    echo "Ingress rule already exists, skipping authorize step"
+existing_rule=$(aws ec2 describe-security-groups --group-ids "$sg_id" --query "SecurityGroups[].IpPermissions[?FromPort=='22']" --output text)
+if [ -n "$existing_rule" ]; then
+    # revoke security group ingress
+    aws ec2 revoke-security-group-ingress --group-id "$sg_id" --protocol tcp --port 22 --cidr 0.0.0.0/0
 fi
+
+# authorize security group ingress
+aws ec2 authorize-security-group-ingress --group-id "$sg_id" --protocol tcp --port 22 --cidr 0.0.0.0/0
