@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # check if security group already exists
 existing_sg=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=awesome-sg" --query "SecurityGroups[].GroupId" --output text)
 if [ -n "$existing_sg" ]; then
