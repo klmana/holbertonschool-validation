@@ -8,7 +8,6 @@ if [ -n "$existing_sg" ]; then
 else
     # create security group
     sg_id=$(aws ec2 create-security-group --group-name awesome-sg --description "Security group for awesome server" --query 'GroupId' --output text)
-    echo "Security group 'awesome-sg' created with id: $sg_id"
 fi
 
 # check if the ingress rule already exists
