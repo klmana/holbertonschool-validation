@@ -3,7 +3,7 @@
 # check if security group already exists
 existing_sg=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=awesome-sg" --query "SecurityGroups[].GroupId" --output text)
 if [ -n "$existing_sg" ]; then
-    echo "Security group 'awesome-sg' already exists with id: $existing_sg"
+    # use existing security group
     sg_id=$existing_sg
 else
     # create security group
