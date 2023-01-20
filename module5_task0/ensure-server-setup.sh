@@ -27,7 +27,7 @@ fi
 
 # Check if key pair already exists
 existing_key=$(aws ec2 describe-key-pairs --region ap-southeast-2 | grep 'KeyName' | grep -c 'awesome-key')
-if [ $existing_key -eq 0 ]; then
+if [ "$existing_key" -eq 0 ]; then
     # create key pair 
     aws ec2 create-key-pair --region ap-southeast-2 --key-name awesome-key
     echo "Key pair created with the name awesome-key"
