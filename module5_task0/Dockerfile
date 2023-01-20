@@ -12,11 +12,12 @@ RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubunt
 RUN groupadd docker
 RUN useradd -m ubuntu
 RUN usermod -aG sudo ubuntu
-RUN usermod -aG docker ubuntu 
-
+RUN usermod -aG docker ubuntu
 
 # Copy the ensure-server-setup.sh script to the image
 COPY ensure-server-setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/ensure-server-setup.sh
 
-# Set the entrypoint to the ensure-server
+# Set the entrypoint to the ensure-server-setup.sh script
+ENTRYPOINT ["/usr/local/bin/ensure-server-setup.sh"]
+

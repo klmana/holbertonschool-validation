@@ -1,21 +1,14 @@
 #!/bin/bash
 
-# check if the server is reachable
-if ssh -q -o "StrictHostKeyChecking no" ubuntu@"$1" exit; then
-  echo "Server is reachable."
-else
-  echo "Error: unable to reach the server."
-  exit 1
-fi
+# check if instance already exists
+instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=awesome-server" --query "Reservations[].Instances[].InstanceId" --output text)
 
-# check if Docker is installed and of the correct version
-docker_version=$(ssh ubuntu@"$1" 'docker -v' | awk '{print $3}')
-if [ "$docker_version" != "20.10" ]; then
-  echo "Error: invalid Docker version installed. Expected 20.10, got $docker_version"
-  exit 1
+if [ -n "$instance_id" ]; then
+# get public dns name of existing instance
+dns=$(aws ec2 describe-instances --instance-ids "$instance_id" --query "Reservations[].Instances[].PublicDnsName" --output text)
+echo "Instance already exists with public DNS name: $dns"
 else
-  echo "Docker version 20.10 is installed."
-fi
-
-# check if all packages are up to date
-ssh ubuntu@"$1" 'sudo apt update'
+# create security group
+sg_id=$(aws ec2 create-security-group --group-name awesome-sg --description "Security group for awesome server" --query 'GroupId' --output text)
+aws ec2 authorize-security-group-ingress --group-id "$sg_id" --protocol tcp --port 22 --cidr 0.0.0.0/0
+aws ec2 authorize-security-group-ingress --
