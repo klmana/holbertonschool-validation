@@ -12,7 +12,7 @@ docker_compose_path=$1
 DOCKER_HOST=ssh://ubuntu@$JENKINS_REMOTE_HOSTNAME
 
 # Deploy the Docker Compose file
-docker-compose -f $docker_compose_path up -d
+docker-compose -f "$docker_compose_path" up -d
 "${compose_cmd[@]}" pull
 "${compose_cmd[@]}" build
 "${compose_cmd[@]}" up --detach
