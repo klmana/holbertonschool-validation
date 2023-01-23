@@ -3,13 +3,83 @@ jenkins:
   securityRealm:
     local:
       allowsSignup: false
+      enableCaptcha: false
       users:
-        - id: jenkins-admin
-          password: '{CLEARTEXT}butler'
-        - id: devops
-          password: '{CLEARTEXT}cicdsecret'
-  authorizationStrategy:
-    fullControl:
+      - id: "jenkins-admin"
+        name: "Jenkins Admin"
+        password: "{CLEARTEXT}butler"
+      - id: "Devops"
+        name: "Devops"
+        password: '{CLEARTEXT}cicdsecret'
+  authorizationStrategy: "triggeringUsersAuthorizationStrategy"
+  globalMatrix:
+      permissions:
+      - "Agent/Build:authenticated"
+      - "Agent/Build:devops"
+      - "Agent/Configure:authenticated"
+      - "Agent/Configure:devops"
+      - "Agent/Connect:authenticated"
+      - "Agent/Connect:devops"
+      - "Agent/Create:authenticated"
+      - "Agent/Create:devops"
+      - "Agent/Delete:authenticated"
+      - "Agent/Delete:devops"
+      - "Agent/Disconnect:authenticated"
+      - "Agent/Disconnect:devops"
+      - "Credentials/Create:authenticated"
+      - "Credentials/Create:devops"
+      - "Credentials/Delete:authenticated"
+      - "Credentials/Delete:devops"
+      - "Credentials/ManageDomains:authenticated"
+      - "Credentials/ManageDomains:devops"
+      - "Credentials/Update:authenticated"
+      - "Credentials/Update:devops"
+      - "Credentials/View:authenticated"
+      - "Credentials/View:devops"
+      - "Job/Build:authenticated"
+      - "Job/Build:devops"
+      - "Job/Cancel:authenticated"
+      - "Job/Cancel:devops"
+      - "Job/Configure:authenticated"
+      - "Job/Configure:devops"
+      - "Job/Create:authenticated"
+      - "Job/Create:devops"
+      - "Job/Delete:authenticated"
+      - "Job/Delete:devops"
+      - "Job/Discover:authenticated"
+      - "Job/Discover:devops"
+      - "Job/Move:authenticated"
+      - "Job/Move:devops"
+      - "Job/Read:authenticated"
+      - "Job/Read:devops"
+      - "Job/Workspace:authenticated"
+      - "Job/Workspace:devops"
+      - "Lockable Resources/Reserve:authenticated"
+      - "Lockable Resources/Reserve:devops"
+      - "Lockable Resources/Unlock:authenticated"
+      - "Lockable Resources/Unlock:devops"
+      - "Lockable Resources/View:authenticated"
+      - "Lockable Resources/View:devops"
+      - "Overall/Administer:jenkins-admin"
+      - "Overall/Read:authenticated"
+      - "Overall/Read:devops"
+      - "Run/Delete:authenticated"
+      - "Run/Delete:devops"
+      - "Run/Replay:authenticated"
+      - "Run/Replay:devops"
+      - "Run/Update:authenticated"
+      - "Run/Update:devops"
+      - "SCM/Tag:authenticated"
+      - "SCM/Tag:devops"
+      - "View/Configure:authenticated"
+      - "View/Configure:devops"
+      - "View/Create:authenticated"
+      - "View/Create:devops"
+      - "View/Delete:authenticated"
+      - "View/Delete:devops"
+      - "View/Read:authenticated"
+      - "View/Read:devops"
+  fullControl:
       user: jenkins-admin
   disabledAdministrativeMonitors:
     - "jenkins.diagnostics.ControllerExecutorsNoAgents"

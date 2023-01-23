@@ -6,11 +6,13 @@ USER ./jenkins
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 
 # Copy the plugins.txt file to the container
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
+COPY --chown=jenkins:jenkins plugins.txt /usr/share/jenkins/ref/plugins.txt
 COPY jenkins/jenkins.yml /var/jenkins_home/
+COPY --chown=jenkins:jenkins jenkins.yml /usr/share/jenkins/ref/jenkins.yaml
 
-
-# Install the plugins defined in the plugins.txt file with fixed version 
+# Install the plugins defined in the plugins.txt file with fixed version
+RUN echo "2.0" > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
+RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 RUN  jenkins-plugin-cli --plugins configuration-as-code -v 1.32
 
 

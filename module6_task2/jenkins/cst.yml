@@ -1,13 +1,29 @@
 ---
 schemaVersion: "2.0.0"
 
+metadataTest:
+  exposedPorts: ["8080"]
+
 
 test:
-  - name: 'plugins.txt'
-    path: './jenkins/'
-    shouldExist: true
-
-  - name: "check-java-version"
-    command: java -version
-    expectedOutput:
-      - ['openjdk version "11.*']
+  - name: "java 11"
+    command: "bash"
+    args:
+      - -c
+      - java -version 2>&1 | grep 'version'
+    expectedOutput: ["11."]
+    excludedError: ["8."]
+  - name: "check plugins"
+    command: "bash"
+    args:
+      - -c
+      - |
+        set -eu &&
+        test -f /usr/share/jenkins/ref/plugins.txt &&
+        cat /usr/share/jenkins/ref/plugins.txt | while read -r line;
+        do ls /usr/share/jenkins/ref/plugins/"${line%:*}"* 2>&1 >/dev/null;
+        done &&
+        echo OK
+    expectedOutput: ["OK"]
+    exitCode: 0
+...
