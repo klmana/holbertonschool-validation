@@ -15,8 +15,8 @@ jobs:
         working-directory: module6_task2/
     timeout-minutes: 20
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: ssh-agent
+        uses: webfactory/ssh-agent@v0.5.2
       - uses: webfactory/ssh-agent@v0.5.2
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
