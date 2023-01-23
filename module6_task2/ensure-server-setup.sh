@@ -13,7 +13,7 @@ docker_installed=$(ssh ubuntu@$remote_hostname 'which docker')
 
 if [ -z "$docker_installed" ]; then
     echo "Docker not found on $remote_hostname, installing..."
-    # Install Docker on the remote machine
+# Install Docker on the remote machine
     ssh ubuntu@$remote_hostname 'sudo apt-get update && sudo apt-get install -y docker.io'
     echo "Docker installed on $remote_hostname"
 else
