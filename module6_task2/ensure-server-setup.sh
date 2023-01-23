@@ -1,21 +1,42 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo "Error: Please provide the hostname of the remote machine as an argument."
-    exit 1
-fi
+test -n "${1}" || { echo "ERROR: please provide the remote SSH server's hostname as argument"; exit 1; }
 
-# Set the remote hostname
-remote_hostname=$1
+set -eux -o pipefail
 
-# Check if Docker is installed on the remote machine
-docker_installed=$(ssh ubuntu@$remote_hostname 'which docker')
+remote_hostname="${1}"
 
-if [ -z "$docker_installed" ]; then
-    echo "Docker not found on $remote_hostname, installing..."
-# Install Docker on the remote machine
-    ssh ubuntu@$remote_hostname 'sudo apt-get update && sudo apt-get install -y docker.io'
-    echo "Docker installed on $remote_hostname"
-else
-    echo "Docker already installed on $remote_hostname"
-fi
+function remote_command() {
+  ## Ignore shellcheck as we WANT interpolation on client side
+  #shellcheck disable=SC2029
+  ssh ubuntu@"${remote_hostname}" "$@"
+}
+
+## Check remote connexion
+# Requirement: the remote server's fingerprint must be in ~/.ssh/known_hosts
+# ssh-keyscan -H "${1}" >> ~/.ssh/known_hosts
+test "$(remote_command echo Hello)" == "Hello" || { echo "ERROR: unable to connect to the remote SSH server"; exit 1; }
+
+remote_command sudo apt-get update
+
+remote_command sudo apt-get install -y --no-install-recommends \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release
+
+remote_command curl --fail --silent --show-error --location https://get.docker.com --output /tmp/get-docker.sh
+remote_command sudo sh /tmp/get-docker.sh
+remote_command sudo adduser ubuntu docker
+remote_command sudo systemctl enable docker
+remote_command sudo systemctl restart docker
+
+remote_command docker ps
+
+remote_command sudo curl --fail --silent --show-error --location --output /usr/local/bin/docker-compose \
+  https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+
+remote_command sudo chmod a+x /usr/local/bin/docker-compose
+
+remote_command docker-compose --version

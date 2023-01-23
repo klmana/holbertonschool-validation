@@ -83,3 +83,4 @@ jenkins:
       user: jenkins-admin
   disabledAdministrativeMonitors:
     - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  url: "${JENKINS_LOCATION}"
