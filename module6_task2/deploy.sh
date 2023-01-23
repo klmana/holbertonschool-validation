@@ -9,7 +9,7 @@ fi
 docker_compose_path=$1
 
 # Set the remote hostname
-DOCKER_HOST=ssh://ubuntu@$JENKINS_REMOTE_HOSTNAME
+# DOCKER_HOST=ssh://ubuntu@$JENKINS_REMOTE_HOSTNAME
 
 # Deploy the Docker Compose file
 compose_cmd=("docker-compose" "-f" "$docker_compose_path")
