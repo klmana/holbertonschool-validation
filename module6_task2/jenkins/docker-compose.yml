@@ -4,8 +4,8 @@ services:
   reverse-proxy:
     image: traefik:v2.4
     command:
-      - --ping=true
-      - --ping.entrypoint=ping
+      - --login=true
+      - --login.entrypoint=login
       - --providers.docker.exposedbydefault=false
       - --entryPoints.web.address=:80
       - --entryPoints.ping.address=:8888
@@ -13,20 +13,20 @@ services:
     restart: unless-stopped
     read_only: true
     ports:
-      - "80:80"
+      - "80:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - jenkins_data:/var/jenkins_home:rw
     healthcheck:
-      test: ["CMD", "wget", "http://127.0.0.1:8888/ping", "--spider"]
+      test: ["CMD", "wget", "http://127.0.0.1:8888/login", "--spider"]
       interval: 5s
       timeout: 5s
       retries: 10
-      start_period: 2s
+      start_period: 20s
 
   awesome-static:
     image: your_image
     environment:
-      - PORT=9000
+      - JENKINS_LOCATION=${JENKINS_LOCATION:-http://localhost}
     networks:
       - traefik_network
     labels:
@@ -38,7 +38,7 @@ services:
   awesome-api:
     image: your_image
     environment:
-      - PORT=9001
+      - JENKINS_LOCATION=${JENKINS_LOCATION:-http://localhost}
     networks:
       - traefik_network
     labels:
