@@ -1,44 +1,36 @@
 ---
-name: module6_task2
+name: 'module6_task2'
 on:
+  # On each code push
   push:
-    branches: [main, master]
-  schedule:
-    - cron: "0 0 * * *"
-  pull_request:
-    types: [opened, reopened, edited, ready_for_review]
-
+    paths:
+      - 'module6_task2/**'
+      - '.github/workflows/module6_task2.yml'
 jobs:
-  module6_task2:
+  build:
+    name: Default
     runs-on: ubuntu-18.04
+    defaults:
+      run:
+        working-directory: module6_task2/
+    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Build Docker Image
-        run: |
-          cd module4_task0/
-          docker build -t my-app .
-      - name: akhileshns/heroku-deploy
-        run: |
-          docker login --username=km@rtin.mobi \
-                       --password=c0584d1d-6f7e-4a3a-92c2-a147718815f5 \
-                       registry.heroku.com
-          docker tag my-app registry.heroku.com/gentle-stream-93938/web
-          docker push registry.heroku.com/gentle-stream-93938/web
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: webfactory/ssh-agent@v0.5.2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Deploy Production Infrastructure
+        if: github.ref == 'refs/heads/main'
         env:
-          HEROKU_API_KEY: c0584d1d-6f7e-4a3a-92c2-a147718815f5
-          HEROKU_APP_NAME: gentle-stream-93938
-          HEROKU_EMAIL: km@rtin.mobi
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: 1.0.1
-          files: |
-            module6_task2/awesome-website.zip
-            module6_task2/DEPLOY.md
-      - name: archive build
-        if: ${{ success()}}
-        uses: actions/upload-artifact@v3
-        with:
-          name: upload-package
-          path: module3_task5/awesome-website.zip
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-west-2
+          INSTANCE_SUFFIX: module6_task2
+        run: |
+          set -eux
+          bash -x ./ensure-server-created.sh jenkins > jenkins-hostname.txt
+          ssh-keyscan -H "$(cat jenkins-hostname.txt)" >> ~/.ssh/known_hosts
+          bash -x ./ensure-server-setup.sh "$(cat jenkins-hostname.txt)"
+          export DOCKER_HOST=ssh://ubuntu@"$(cat jenkins-hostname.txt)"
+          bash -x ./deploy.sh ./jenkins/docker-compose.yml
