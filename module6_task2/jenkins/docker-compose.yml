@@ -1,52 +1,21 @@
 ---
-version: '3'
+volumes:
+  jenkins_data:
+
 services:
-  reverse-proxy:
-    image: traefik:v2.4
-    command:
-      - --login=true
-      - --login.entrypoint=login
-      - --providers.docker.exposedbydefault=false
-      - --entryPoints.web.address=:80
-      - --entryPoints.ping.address=:8888
-      - --accesslog=true
-    restart: unless-stopped
-    read_only: true
+  jenkins:
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - "80:8080"
     volumes:
       - jenkins_data:/var/jenkins_home:rw
+    environment:
+      - JENKINS_LOCATION=${JENKINS_LOCATION:-http://localhost}
     healthcheck:
-      test: ["CMD", "wget", "http://127.0.0.1:8888/login", "--spider"]
+      test: ["CMD", "wget", "http://127.0.0.1:8080/login", "--spider"]
       interval: 5s
       timeout: 5s
       retries: 10
       start_period: 20s
-
-  awesome-static:
-    image: your_image
-    environment:
-      - JENKINS_LOCATION=${JENKINS_LOCATION:-http://localhost}
-    networks:
-      - traefik_network
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.awesome-static.entrypoints=web
-      - traefik.http.routers.awesome-static.rule=/
-      - traefik.http.services.awesome-static.loadbalancer.server.port=9000
-
-  awesome-api:
-    image: your_image
-    environment:
-      - JENKINS_LOCATION=${JENKINS_LOCATION:-http://localhost}
-    networks:
-      - traefik_network
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.awesome-api.entrypoints=web
-      - traefik.http.routers.awesome-api.rule=/hello
-      - traefik.http.services.awesome-api.loadbalancer.server.port=9001
-
-networks:
-  traefik_network:
-    external: true
