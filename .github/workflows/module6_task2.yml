@@ -1,1 +1,44 @@
-../.github/workflows/module6_task2.yml
+---
+name: module6_task2
+on:
+  push:
+    branches: [main, master]
+  schedule:
+    - cron: "0 0 * * *"
+  pull_request:
+    types: [opened, reopened, edited, ready_for_review]
+
+jobs:
+  module6_task2:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build Docker Image
+        run: |
+          cd module4_task0/
+          docker build -t my-app .
+      - name: akhileshns/heroku-deploy
+        run: |
+          docker login --username=km@rtin.mobi \
+                       --password=c0584d1d-6f7e-4a3a-92c2-a147718815f5 \
+                       registry.heroku.com
+          docker tag my-app registry.heroku.com/gentle-stream-93938/web
+          docker push registry.heroku.com/gentle-stream-93938/web
+        env:
+          HEROKU_API_KEY: c0584d1d-6f7e-4a3a-92c2-a147718815f5
+          HEROKU_APP_NAME: gentle-stream-93938
+          HEROKU_EMAIL: km@rtin.mobi
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: 1.0.1
+          files: |
+            module6_task2/awesome-website.zip
+            module6_task2/DEPLOY.md
+      - name: archive build
+        if: ${{ success()}}
+        uses: actions/upload-artifact@v3
+        with:
+          name: upload-package
+          path: module3_task5/awesome-website.zip
