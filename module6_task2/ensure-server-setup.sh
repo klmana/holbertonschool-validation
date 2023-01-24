@@ -7,9 +7,8 @@ set -eux -o pipefail
 ./ensure-server-setup.sh new_remote_hostname "${1}"
 
 function remote_command() {
-  ## Ignore shellcheck as we WANT interpolation on client side
-  #shellcheck disable=SC2029
-  ssh ubuntu@"${remote_hostname}" "$@"
+  local remote_hostname="${1}"
+  ssh ubuntu@"${remote_hostname}" "${@:2}"
 }
 
 ## Check remote connexion
