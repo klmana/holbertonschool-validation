@@ -1,5 +1,5 @@
 # Use a specific version of the Jenkins LTS image with JDK11
-FROM jenkins/jenkins:lts-jdk11-2.375.2 
+FROM jenkins/jenkins:lts-jdk11-20.10.23
 
 # Set the Jenkins version to 2.0
 RUN echo "2.0" > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
