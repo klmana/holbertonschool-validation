@@ -21,7 +21,7 @@ else
 fi
 
 ## Cleanup previous containers and images if it already exists
-docker ps -q | xargs docker kill || true
+docker ps -q -f name=jenkins_jenkins | xargs docker kill || true
 docker system prune --volumes --force
 
 ## Deploy with compose
