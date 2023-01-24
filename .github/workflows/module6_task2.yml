@@ -20,12 +20,10 @@ jobs:
           docker build -t my-app .
       - name: akhileshns/heroku-deploy
         run: |
-          docker login --username=km@rtin.mobi \
-                       --password=c0584d1d-6f7e-4a3a-92c2-a147718815f5 \
-                       registry.heroku.com
+          docker login --username=km@rtin.mobi  --*** registry.heroku.com
           docker tag my-app registry.heroku.com/gentle-stream-93938/web
-          docker push registry.heroku.com/gentle-stream-93938/web
-        env:
+          echo "password" | docker login --username=km@rtin.mobi --password-stdin registry.heroku.com
+
           HEROKU_API_KEY: c0584d1d-6f7e-4a3a-92c2-a147718815f5
           HEROKU_APP_NAME: gentle-stream-93938
           HEROKU_EMAIL: km@rtin.mobi
