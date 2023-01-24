@@ -6,10 +6,13 @@ set -eux -o pipefail
 
 ./ensure-server-setup.sh new_remote_hostname "${1}"
 
-function remote_command() {
-  local remote_hostname="${1}"
-  ssh ubuntu@"${remote_hostname}" "${@:2}"
-}
+args=("${@:2}")
+escaped_args=()
+for arg in "${args[@]}"; do
+  escaped_args+=("$(printf %q "$arg")")
+done
+
+ssh ubuntu@"${remote_hostname}" "${escaped_args[@]}"
 
 ## Check remote connexion
 # Requirement: the remote server's fingerprint must be in ~/.ssh/known_hosts
