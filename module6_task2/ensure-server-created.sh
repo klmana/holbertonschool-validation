@@ -38,8 +38,8 @@ aws ec2 describe-security-groups --group-name="${SECGROUP_NAME}" >/dev/null 2>&1
 if test -z "$(get_instance_id)"
 then
   # Retrieve the AMI ID
-  ami_name_pattern='ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-????????'
-  owner_id='099720109477'
+  ami_name_pattern='ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-arm64-server-????????'
+  owner_id='715524332f'
   ami_id="$(aws ec2 describe-images --owners "${owner_id}" --output text \
     --filters "Name=name,Values=${ami_name_pattern}" "Name=state,Values=available" \
     --query "reverse(sort_by(Images, &CreationDate))[:1].ImageId")"

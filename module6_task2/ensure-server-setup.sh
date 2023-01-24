@@ -4,7 +4,7 @@ test -n "${1}" || { echo "ERROR: please provide the remote SSH server's hostname
 
 set -eux -o pipefail
 
-remote_hostname="${1}"
+./ensure-server-setup.sh new_remote_hostname "${1}"
 
 function remote_command() {
   ## Ignore shellcheck as we WANT interpolation on client side
@@ -14,7 +14,7 @@ function remote_command() {
 
 ## Check remote connexion
 # Requirement: the remote server's fingerprint must be in ~/.ssh/known_hosts
-# ssh-keyscan -H "${1}" >> ~/.ssh/known_hosts
+ssh-keyscan -H "new_remote_hostname" >> ~/.ssh/known_hosts  || exit_on_error "Failed to check remote connexion"
 test "$(remote_command echo Hello)" == "Hello" || { echo "ERROR: unable to connect to the remote SSH server"; exit 1; }
 
 remote_command sudo apt-get update
