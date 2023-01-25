@@ -16,25 +16,24 @@ jobs:
         working-directory: module6_task2/
     timeout-minutes: 1
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup ssh-agent
-        uses: webfactory/ssh-agent@v0.5.2
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Setup ssh-agent
+          uses: webfactory/ssh-agent@v0.5.2
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-
-      - name: Deploy Production Infrastructure
-        if: github.ref == 'refs/heads/main'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: au-west-2
-          INSTANCE_SUFFIX: module6_task2
-        run: |
-          set -eux
-          bash -x ./ensure-server-created.sh jenkins > jenkins-hostname.txt
-          ssh-keyscan -H "$(cat jenkins-hostname.txt)" >> ~/.ssh/known_hosts
-          bash -x ./ensure-server-setup.sh "$(cat jenkins-hostname.txt)"
-          export DOCKER_HOST=ssh://ubuntu@"$(cat jenkins-hostname.txt)"
-          bash -x ./deploy.sh ./jenkins/docker-compose.yml
+        - name: Deploy Production Infrastructure
+          if: github.ref == 'refs/heads/main'
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_DEFAULT_REGION: au-west-2
+            INSTANCE_SUFFIX: module6_task2
+          run: |
+            set -eux
+            bash -x ./ensure-server-created.sh jenkins > jenkins-hostname.txt
+            ssh-keyscan -H "$(cat jenkins-hostname.txt)" >> ~/.ssh/known_hosts
+            bash -x ./ensure-server-setup.sh "$(cat jenkins-hostname.txt)"
+            export DOCKER_HOST=ssh://ubuntu@"$(cat jenkins-hostname.txt)"
+            bash -x ./deploy.sh ./jenkins/docker-compose.yml

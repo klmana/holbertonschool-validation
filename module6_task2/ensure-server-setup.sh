@@ -12,7 +12,7 @@ for arg in "${args[@]}"; do
   escaped_args+=("$(printf %q "$arg")")
 done
 
-ssh ubuntu@"${remote_hostname}" "${escaped_args[*]}"
+ssh ubuntu@"${remote_hostname}" "${escaped_args[@]}"
 
 ## Check remote connexion
 # Requirement: the remote server's fingerprint must be in ~/.ssh/known_hosts
