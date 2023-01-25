@@ -4,7 +4,7 @@ test -n "${1}" || { echo "ERROR: please provide the remote SSH server's hostname
 
 set -eux -o pipefail
 
-./ensure-server-setup.sh new_remote_hostname "${1}"
+remote_hostname="${1}"
 
 args=("${@:2}")
 escaped_args=()
@@ -16,23 +16,20 @@ ssh ubuntu@"${remote_hostname}" "${escaped_args[@]}"
 
 ## Check remote connexion
 # Requirement: the remote server's fingerprint must be in ~/.ssh/known_hosts
-ssh-keyscan -H "new_remote_hostname" >> ~/.ssh/known_hosts  || exit_on_error "Failed to check remote connexion"
-test "$(remote_command echo Hello)" == "Hello" || { echo "ERROR: unable to connect to the remote SSH server"; exit 1; }
+ssh-keyscan -H "${1}" >> ~/.ssh/known_hosts  || exit_on_error "Failed to check remote connexion"
+test "$(ssh -t ubuntu@"${1}" echo Hello)" == "Hello" || { echo "ERROR: unable to connect to the remote SSH server"; exit 1; }
 
-remote_command sudo apt-get update
+ssh -t ubuntu@"${1}" sudo apt-get update
 
-remote_command sudo apt-get install -y --no-install-recommends \
+ssh -t ubuntu@"${1}" sudo apt-get install -y --no-install-recommends \
   apt-transport-https \
   ca-certificates \
   curl \
   gnupg \
   lsb-release
 
-remote_command curl --fail --silent --show-error --location https://get.docker.com --output /tmp/get-docker.sh
-remote_command sudo sh /tmp/get-docker.sh
-remote_command sudo adduser ubuntu docker
-remote_command sudo systemctl enable docker
-remote_command sudo systemctl restart docker
+ssh -t ubuntu@"${1}" curl --fail --silent --show-error --location https://get.docker.com --output /tmp/get-docker.sh
+ssh -t ubuntu@"${1}" sudo
 
 remote_command docker ps
 
