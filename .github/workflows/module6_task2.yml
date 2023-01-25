@@ -21,7 +21,7 @@ jobs:
       - name: Setup ssh-agent
         uses: webfactory/ssh-agent@v0.5.2
         with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
 
       - name: Deploy Production Infrastructure
